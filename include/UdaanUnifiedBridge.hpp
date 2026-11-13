@@ -16,14 +16,14 @@ namespace CivicSentinel {
  * @brief Inter-Portal Communication Bridge (Project Udaan).
  * 
  * Unifies:
- * - Arjun's Ground-Level Field Portal (TagTrie, DuplicateDetector, AntiSybilVault)
- * - Divyansh's Core Admin & Politician Engine (Max-Heap, LifecycleFSM, Red-Black Tree)
- * - Divyansh's Economic & Welfare Engine (MPI Registry, Knapsack Stimulus, Fenwick Tree, Skill Trie)
+ * - Ground-Level Citizen Field Portal (TagTrie, DuplicateDetector, AntiSybilVault)
+ * - Core Dispatch & Politician Engine (Max-Heap, LifecycleFSM, Red-Black Tree)
+ * - Economic & Welfare Engine (MPI Registry, Knapsack Stimulus, Fenwick Tree, Skill Trie)
  */
 class UdaanUnifiedBridge {
 public:
-    CivicSentinelSystem civicSystem;         // Arjun's Portal & Core Civic Engine
-    MasterEconomicEngine economicEngine;     // Divyansh's Economic & Welfare Engine
+    CivicSentinelSystem civicSystem;         // Citizen Field Portal & Core Civic Engine
+    MasterEconomicEngine economicEngine;     // Economic & Welfare Engine
 
     UdaanUnifiedBridge() : economicEngine(20) {
         seedInitialEconomicData();
@@ -45,7 +45,7 @@ public:
     }
 
     // ========================================================================
-    // ARJUN'S FIELD PORTAL INTERFACES
+    // CITIZEN FIELD PORTAL INTERFACES
     // ========================================================================
     vector<string> searchTags(const string& prefix) {
         return civicSystem.searchAutocompleteTags(prefix);
@@ -53,10 +53,10 @@ public:
 
     bool lodgeGrievance(CivicCategory category, const string& title, const string& description,
                         const string& wardId, const string& citizenId, SeverityLevel severity) {
-        // 1. Lodge in Arjun's Field Portal (with Duplicate Detection & Max-Heap dispatch)
+        // 1. Lodge in Citizen Field Portal (with Duplicate Detection & Max-Heap dispatch)
         civicSystem.lodgeComplaint(category, title, description, wardId, citizenId, severity);
 
-        // 2. Inter-Portal Bridge: If issue is economic or welfare related, route to Divyansh's Economic Engine!
+        // 2. Inter-Portal Bridge: If issue is economic or welfare related, route to Economic Engine!
         string lowerTitle = title;
         for (char& c : lowerTitle) c = tolower(c);
 
@@ -92,7 +92,7 @@ public:
     }
 
     // ========================================================================
-    // DIVYANSH'S CORE DISPATCH & ECONOMIC INTERFACES
+    // CORE DISPATCH & ECONOMIC INTERFACES
     // ========================================================================
     void peekTopEmergency() {
         civicSystem.viewTopEmergency();
@@ -101,7 +101,7 @@ public:
     void claimAndDispatchWork(int ticketId, const string& officerName, double budget, const string& requiredSkill = "") {
         civicSystem.claimTicket(ticketId, officerName, budget);
 
-        // Inter-portal bridge: labor absorption matching via Divyansh's Skill Taxonomy Trie
+        // Inter-portal bridge: labor absorption matching via Skill Taxonomy Trie
         if (!requiredSkill.empty()) {
             cout << "\n  [BRIDGE: LABOR ABSORPTION DISPATCH]" << endl;
             cout << "  Searching Skill Taxonomy Trie for qualified unemployed citizens ('" << requiredSkill << "')..." << endl;
@@ -119,12 +119,12 @@ public:
     }
 
     void runKnapsackStimulus(int ward, double budget) {
-        cout << "\n>>> [DIVYANSH ECONOMIC ENGINE: 0/1 KNAPSACK STIMULUS ALLOCATION]" << endl;
+        cout << "\n>>> [ECONOMIC ENGINE: 0/1 KNAPSACK STIMULUS ALLOCATION]" << endl;
         economicEngine.execute_targeted_dbt(ward, budget);
     }
 
     void queryWardStocks(int startWard, int endWard) {
-        cout << "\n>>> [DIVYANSH ECONOMIC ENGINE: FENWICK TREE REGIONAL FOOD RESERVES]" << endl;
+        cout << "\n>>> [ECONOMIC ENGINE: FENWICK TREE REGIONAL FOOD RESERVES]" << endl;
         int64_t stock = economicEngine.query_regional_grain_stock(startWard, endWard);
         cout << "  - Regional Foodgrain Reserve across Wards [" << startWard << ".." << endWard << "]: " << stock << " kg" << endl;
     }
@@ -135,35 +135,35 @@ public:
     void runFullInterPortalDemo() {
         cout << "\n=================================================================" << endl;
         cout << "   PROJECT UDAAN: LIVE INTER-PORTAL COMMUNICATION DEMONSTRATION  " << endl;
-        cout << "   Arjun's Field Portal <==== Bi-Directional Bridge ====> Divyansh Engine " << endl;
+        cout << "   Citizen Field Portal <==== Bi-Directional Bridge ====> Core & Economic Engines " << endl;
         cout << "=================================================================" << endl;
 
-        // Step 1: Citizen uses Arjun's Prefix Trie
-        cout << "\n[STEP 1: CITIZEN SEARCHES VIA ARJUN'S PREFIX TRIE]" << endl;
+        // Step 1: Prefix Trie search
+        cout << "\n[STEP 1: PREFIX TRIE AUTOCOMPLETE SEARCH]" << endl;
         cout << "Citizen types prefix 'wat' in Field Portal..." << endl;
         auto tags = searchTags("wat");
         for (const auto& t : tags) cout << "  -> Autocomplete Suggestion: " << t << endl;
 
         // Step 2: Citizen lodges an infrastructure crisis
-        cout << "\n[STEP 2: CITIZEN LODGES GRIEVANCE IN ARJUN'S PORTAL]" << endl;
+        cout << "\n[STEP 2: CITIZEN LODGES GRIEVANCE IN FIELD PORTAL]" << endl;
         lodgeGrievance(CivicCategory::ROADS_INFRASTRUCTURE,
                        "Dangerous Pothole on Ring Road highway",
                        "Large crater causing severe vehicle accidents near Sector 62 exit",
                        "Ward-12", "CITIZEN_101", SeverityLevel::HIGH);
 
         // Step 3: Anti-Sybil single-vote enforcement
-        cout << "\n[STEP 3: ARJUN'S ANTI-SYBIL VAULT INTEGRITY CHECK]" << endl;
+        cout << "\n[STEP 3: ANTI-SYBIL VAULT INTEGRITY CHECK]" << endl;
         upvoteTicket("CITIZEN_VOTER_1", 101);
         upvoteTicket("CITIZEN_VOTER_2", 101);
         cout << "Attempting duplicate malicious vote by CITIZEN_VOTER_1:" << endl;
         upvoteTicket("CITIZEN_VOTER_1", 101);
 
-        // Step 4: Divyansh's Binary Max-Heap bubbles up emergency
-        cout << "\n[STEP 4: DIVYANSH'S CORE DISPATCH MAX-HEAP REBALANCING]" << endl;
+        // Step 4: Binary Max-Heap bubbles up emergency
+        cout << "\n[STEP 4: CORE DISPATCH MAX-HEAP REBALANCING]" << endl;
         peekTopEmergency();
 
-        // Step 5: Divyansh claims ticket and hires unemployed citizen via Skill Trie
-        cout << "\n[STEP 5: DIVYANSH FSM CLAIM & ECONOMIC LABOR ABSORPTION]" << endl;
+        // Step 5: FSM Claim and hire unemployed citizen via Skill Trie
+        cout << "\n[STEP 5: FSM CLAIM & ECONOMIC LABOR ABSORPTION]" << endl;
         claimAndDispatchWork(101, "Executive Engineer V. K. Saxena", 85000.0, "construction");
 
         // Step 6: Municipal official completes work
@@ -171,18 +171,18 @@ public:
         resolveTicket(101, "Crater filled with bitumen and compacted; road safety restored.");
 
         // Step 7: Citizen democratic verification via compliment
-        cout << "\n[STEP 7: ARJUN'S PORTAL VERIFICATION VIA CITIZEN COMPLIMENT]" << endl;
+        cout << "\n[STEP 7: CITIZEN DEMOCRATIC VERIFICATION VIA COMPLIMENT]" << endl;
         lodgeCompliment(CivicCategory::ROADS_INFRASTRUCTURE,
                         "Smooth highway commute restored!",
                         "Prompt repair by the municipal team. No traffic hazard anymore.",
                         "Ward-12", "CITIZEN_101", 101, 5, "Executive Engineer V. K. Saxena");
 
         // Step 8: Economic Engine Stimulus via 0/1 Knapsack
-        cout << "\n[STEP 8: DIVYANSH'S WELFARE ENGINE 0/1 KNAPSACK STIMULUS]" << endl;
+        cout << "\n[STEP 8: WELFARE ENGINE 0/1 KNAPSACK STIMULUS]" << endl;
         runKnapsackStimulus(4, 6000.0);
 
         // Step 9: Fenwick Tree Ward Food Inventory
-        cout << "\n[STEP 9: DIVYANSH'S FENWICK TREE REGIONAL FOOD RESERVES]" << endl;
+        cout << "\n[STEP 9: FENWICK TREE REGIONAL FOOD RESERVES]" << endl;
         queryWardStocks(1, 5);
 
         // Step 10: Politician Scorecard Audit combining Grievance + Delta BPL

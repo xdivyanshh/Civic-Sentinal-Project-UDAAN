@@ -21,12 +21,13 @@
   }
 
   h2 {
-    font-size: 16px;
+    font-size: 15px;
     margin-top: 18px;
     margin-bottom: 8px;
     text-transform: uppercase;
     border-bottom: 1px solid #000;
     padding-bottom: 3px;
+    letter-spacing: 0.5px;
   }
 
   p {
@@ -95,7 +96,7 @@
     font-family: Consolas, monospace;
     font-size: 12.5px;
     min-height: 140px;
-    max-height: 320px;
+    max-height: 340px;
     overflow-y: auto;
     white-space: pre-wrap;
     margin-top: 12px;
@@ -111,13 +112,13 @@
   <!-- HEADER -->
   <h1>PROJECT UDAAN — DATA STRUCTURES LAB PORTAL</h1>
   <p><strong>Course:</strong> Data Structures Lab (15B17CI371) | <strong>Institute:</strong> Jaypee Institute of Information Technology (JIIT, Noida)</p>
-  <p><strong>Students:</strong> Abhishek Bansal (2501030123) | Divyansh Agarwal (2501030124) | Arjun Bhardwaj (2501030134)</p>
+  <p><strong>Submitted by:</strong> Abhishek Bansal (2501030123) | Divyansh Agarwal (2501030124) | Arjun Bhardwaj (2501030134)</p>
   <p><strong>Mentor:</strong> Dr. Lalita Mishra</p>
   <hr>
 
-  <!-- SECTION 1: ARJUN'S FIELD PORTAL -->
+  <!-- SECTION 1: CITIZEN FIELD PORTAL -->
   <div class="section">
-    <h2>1. Arjun's Field Portal (Citizen Intake &amp; Duplicate Check)</h2>
+    <h2>1. Citizen Field Portal (Intake &amp; Duplicate Check)</h2>
     
     <!-- TRIE SEARCH -->
     <div class="form-row">
@@ -164,9 +165,9 @@
 
   <hr>
 
-  <!-- SECTION 2: DIVYANSH'S CORE DISPATCH & POLITICIAN AUDIT -->
+  <!-- SECTION 2: CORE DISPATCH & POLITICIAN AUDIT -->
   <div class="section">
-    <h2>2. Divyansh's Core Dispatch &amp; Politician Audit (Max-Heap, FSM, Red-Black Tree)</h2>
+    <h2>2. Core Dispatch &amp; Politician Audit (Max-Heap, FSM, Red-Black Tree)</h2>
     <div class="form-row">
       <button class="primary" onclick="peekMaxHeap()">Peek #1 Crisis [Binary Max-Heap O(1)]</button>
       <button onclick="viewAllHeap()">View All Queued Emergencies</button>
@@ -201,9 +202,9 @@
 
   <hr>
 
-  <!-- SECTION 3: DIVYANSH'S ECONOMIC & WELFARE ENGINE -->
+  <!-- SECTION 3: ECONOMIC & WELFARE ENGINE -->
   <div class="section">
-    <h2>3. Divyansh's Economic &amp; Welfare Engine (Pillar 2)</h2>
+    <h2>3. Economic &amp; Welfare Engine (Pillar 2)</h2>
     
     <!-- KNAPSACK -->
     <div class="form-row">
@@ -236,7 +237,7 @@
   <!-- SECTION 4: FULL END-TO-END DEMO -->
   <div class="section">
     <h2>4. Inter-Portal Live Communication Bridge</h2>
-    <p>Watch Arjun's Field Portal and Divyansh's Core &amp; Economic Engines execute the complete closed-loop governance cycle:</p>
+    <p>Watch the Citizen Field Portal and Core &amp; Economic Engines execute the complete closed-loop governance cycle:</p>
     <button class="primary" style="padding: 8px 18px; font-size: 14px;" onclick="runFullDemo()">
       ▶ Run Complete Inter-Portal Integration Demo
     </button>
@@ -246,9 +247,9 @@
   <!-- CONSOLE OUTPUT BOX -->
   <h2>Console Output &amp; DSA Trace Log</h2>
   <div class="output-box" id="output">System initialized.
-[✓] Arjun's Field Portal ready (Prefix Trie, Inverted Index, Anti-Sybil Vault).
-[✓] Divyansh's Core Engine ready (Binary Max-Heap, Lifecycle FSM, Telemetry BST).
-[✓] Divyansh's Economic Engine ready (Knapsack DP, Fenwick Tree, Skill Trie).
+[✓] Citizen Field Portal ready (Prefix Trie, Inverted Index, Anti-Sybil Vault).
+[✓] Core Dispatch Engine ready (Binary Max-Heap, Lifecycle FSM, Telemetry BST).
+[✓] Economic &amp; Welfare Engine ready (Knapsack DP, Fenwick Tree, Skill Trie).
 Select an action above to test any data structure.</div>
 
 <script>
@@ -286,7 +287,7 @@ Select an action above to test any data structure.</div>
     document.getElementById("output").innerText = "Output cleared. Ready.";
   }
 
-  // --- ARJUN'S FIELD PORTAL ---
+  // --- CITIZEN FIELD PORTAL ---
   function searchTrie() {
     const q = document.getElementById("trie-query").value.toLowerCase().trim();
     const matches = state.tags.filter(t => t.startsWith(q));
@@ -319,7 +320,7 @@ Select an action above to test any data structure.</div>
     const score = (1 * 5.0) + (sev * 3.5) + (1 * 0.15);
     state.tickets.unshift({ id: newId, title, ward, citizen, sev, votes: 1, state: "OPEN", score });
 
-    print(`[✓] FIELD INTAKE SUCCESS: Ticket #${newId} created.\n  Title: "${title}" | Ward: ${ward} | Priority Score: ${score.toFixed(2)}\n  Queued into Divyansh's Dynamic Max-Heap in O(log N) time.`);
+    print(`[✓] FIELD INTAKE SUCCESS: Ticket #${newId} created.\n  Title: "${title}" | Ward: ${ward} | Priority Score: ${score.toFixed(2)}\n  Queued into Dynamic Max-Heap in O(log N) time.`);
   }
 
   function upvoteTicket() {
@@ -343,7 +344,7 @@ Select an action above to test any data structure.</div>
     }
   }
 
-  // --- DIVYANSH'S CORE DISPATCH ---
+  // --- CORE DISPATCH ---
   function peekMaxHeap() {
     state.tickets.sort((a, b) => b.score - a.score);
     const top = state.tickets[0];
@@ -366,7 +367,7 @@ Select an action above to test any data structure.</div>
     const t = state.tickets.find(x => x.id === tid);
     if (t) {
       t.state = "IN_PROGRESS";
-      print(`[OK] FSM TRANSITION: Ticket #${tid} moved OPEN -> IN_PROGRESS.\n  Officer: ${off} | Budget Allocated: $${b}\n  [BRIDGE]: Searching Divyansh's Skill Trie for qualified local day-laborers.`);
+      print(`[OK] FSM TRANSITION: Ticket #${tid} moved OPEN -> IN_PROGRESS.\n  Officer: ${off} | Budget Allocated: $${b}\n  [BRIDGE]: Searching Skill Taxonomy Trie for qualified local day-laborers.`);
     }
   }
 
@@ -398,7 +399,7 @@ Select an action above to test any data structure.</div>
     print(`========================================================\n  POLITICIAN ACCOUNTABILITY AUDIT SCORECARD (0-100)    \n========================================================\n Representative : ${name}\n Jurisdiction   : ${ward}\n Audit Window   : 2026-07 to 2026-10 (4 Months Audited via Red-Black BST)\n--------------------------------------------------------\n [2026-07] Reported: 45 | Resolved: 38 | Poverty Delta: +2.1% | Rating: 82.0\n [2026-08] Reported: 60 | Resolved: 56 | Poverty Delta: +2.8% | Rating: 87.5\n [2026-09] Reported: 35 | Resolved: 33 | Poverty Delta: +3.2% | Rating: 91.0\n [2026-10] Reported: 70 | Resolved: 48 | Poverty Delta: +1.4% | Rating: 66.0\n--------------------------------------------------------\n FINAL COMPOSITE DEMOCRATIC RATING: 70.92 / 100.00\n PERFORMANCE GRADE: [B] Satisfactory Progress\n========================================================`);
   }
 
-  // --- ECONOMIC ENGINE ---
+  // --- ECONOMIC & WELFARE ENGINE ---
   function runKnapsack() {
     const b = parseInt(document.getElementById("knap-budget").value);
     const w = document.getElementById("knap-ward").value;
@@ -426,26 +427,26 @@ Select an action above to test any data structure.</div>
   // --- FULL END-TO-END DEMO ---
   function runFullDemo() {
     clearOutput();
-    print("=================================================================\n   PROJECT UDAAN: LIVE INTER-PORTAL COMMUNICATION DEMONSTRATION  \n   Arjun's Field Portal <==== Bi-Directional Bridge ====> Divyansh Engine \n=================================================================");
+    print("=================================================================\n   PROJECT UDAAN: LIVE INTER-PORTAL COMMUNICATION DEMONSTRATION  \n   Citizen Field Portal <==== Bi-Directional Bridge ====> Core & Economic Engines \n=================================================================");
     
     setTimeout(() => {
-      print("\n[STEP 1: ARJUN'S PREFIX TRIE SEARCH]\nCitizen searches prefix 'wat' -> Found 'water-contamination', 'water-leak'.");
+      print("\n[STEP 1: PREFIX TRIE SEARCH]\nCitizen searches prefix 'wat' -> Found 'water-contamination', 'water-leak'.");
     }, 400);
 
     setTimeout(() => {
-      print("\n[STEP 2: ARJUN'S FIELD INTAKE & INVERTED INDEX]\nCitizen lodges complaint: 'Dangerous Pothole on Ring Road highway' in Ward-12.\n [!] NEAR-DUPLICATE WARNING: Similar issue exists (Ticket #101)! Proceeding to queue in Max-Heap.");
+      print("\n[STEP 2: FIELD INTAKE & INVERTED INDEX]\nCitizen lodges complaint: 'Dangerous Pothole on Ring Road highway' in Ward-12.\n [!] NEAR-DUPLICATE WARNING: Similar issue exists (Ticket #101)! Proceeding to queue in Max-Heap.");
     }, 900);
 
     setTimeout(() => {
-      print("\n[STEP 3: ARJUN'S ANTI-SYBIL VAULT INTEGRITY]\n [+] Vote accepted from CITIZEN_VOTER_1 on Ticket #101.\n Attempting duplicate vote injection:\n [!] FRAUD BLOCKED: Citizen CITIZEN_VOTER_1 has already voted for Ticket #101!");
+      print("\n[STEP 3: ANTI-SYBIL VAULT INTEGRITY]\n [+] Vote accepted from CITIZEN_VOTER_1 on Ticket #101.\n Attempting duplicate vote injection:\n [!] FRAUD BLOCKED: Citizen CITIZEN_VOTER_1 has already voted for Ticket #101!");
     }, 1400);
 
     setTimeout(() => {
-      print("\n[STEP 4: DIVYANSH'S CORE DISPATCH MAX-HEAP]\nBinary Max-Heap rebalances in O(log N). Root Peek: Ticket #102 (Score: 16.5).");
+      print("\n[STEP 4: CORE DISPATCH MAX-HEAP]\nBinary Max-Heap rebalances in O(log N). Root Peek: Ticket #102 (Score: 16.5).");
     }, 1900);
 
     setTimeout(() => {
-      print("\n[STEP 5: DIVYANSH'S FSM CLAIM & LABOR ABSORPTION]\n [OK] FSM: Ticket #101 moved OPEN -> IN_PROGRESS by Executive Engineer V. K. Saxena (Budget: $85,000).\n [BRIDGE]: Skill Trie queries 'construction' -> Hires unemployed citizen #1004 for public works!");
+      print("\n[STEP 5: FSM CLAIM & LABOR ABSORPTION]\n [OK] FSM: Ticket #101 moved OPEN -> IN_PROGRESS by Executive Engineer V. K. Saxena (Budget: $85,000).\n [BRIDGE]: Skill Trie queries 'construction' -> Hires unemployed citizen #1004 for public works!");
     }, 2400);
 
     setTimeout(() => {
@@ -453,11 +454,11 @@ Select an action above to test any data structure.</div>
     }, 2900);
 
     setTimeout(() => {
-      print("\n[STEP 7: ARJUN'S PORTAL DEMOCRATIC VERIFICATION]\nCitizen files compliment -> FSM moves Ticket #101 RESOLVED -> VERIFIED!");
+      print("\n[STEP 7: DEMOCRATIC VERIFICATION]\nCitizen files compliment -> FSM moves Ticket #101 RESOLVED -> VERIFIED!");
     }, 3400);
 
     setTimeout(() => {
-      print("\n[STEP 8: DIVYANSH'S WELFARE 0/1 KNAPSACK & FENWICK TREE]\nDisburses Rs.4,000 targeted stimulus in Ward-4; Fenwick Tree monitors 100,000 kg grain reserves.");
+      print("\n[STEP 8: WELFARE 0/1 KNAPSACK & FENWICK TREE]\nDisburses Rs.4,000 targeted stimulus in Ward-4; Fenwick Tree monitors 100,000 kg grain reserves.");
     }, 3900);
 
     setTimeout(() => {

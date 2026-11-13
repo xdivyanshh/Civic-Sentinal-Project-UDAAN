@@ -19,13 +19,13 @@ void printBanner() {
 }
 
 void printMenu() {
-    cout << "\n--- GROUND-LEVEL FIELD PORTAL (ARJUN) ---" << endl;
+    cout << "\n--- GROUND-LEVEL FIELD PORTAL (INTAKE & DUPLICATE CHECK) ---" << endl;
     cout << " 1. Lodge a Citizen Complaint (with Duplicate & Trie check)" << endl;
     cout << " 2. Upvote an Existing Issue (Anti-Sybil Vault protected)" << endl;
     cout << " 3. Submit Citizen Compliment (Commendation & FSM Verification)" << endl;
     cout << " 4. Propose a Civic Policy Suggestion" << endl;
     cout << " 5. Autocomplete Search for Civic Tags (Prefix Trie)" << endl;
-    cout << "\n--- CORE ENGINE & POLITICIAN INTELLIGENCE (DIVYANSH) ---" << endl;
+    cout << "\n--- CORE ENGINE & POLITICIAN INTELLIGENCE ---" << endl;
     cout << " 6. Peek Highest-Priority Crisis in Max-Heap (O(1))" << endl;
     cout << " 7. Municipal Official: Claim Issue & Assign Budget (FSM)" << endl;
     cout << " 8. Municipal Official: Mark Work Resolved with Proof (FSM)" << endl;

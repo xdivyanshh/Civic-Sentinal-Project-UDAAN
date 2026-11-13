@@ -24,7 +24,7 @@ namespace CivicSentinel {
 
 // ============================================================================
 // SYSTEM FACADE & UNIFIED CORE CONTROLLER
-// Coordinates Arjun's Field Portal and Divyansh's Core Engine seamlessly.
+// Coordinates Citizen Field Portal and Core Engine seamlessly.
 // ============================================================================
 class CivicSentinelSystem {
 private:
@@ -87,7 +87,7 @@ public:
         );
     }
 
-    // --- ARJUN'S FIELD PORTAL INTERFACES ---
+    // --- CITIZEN FIELD PORTAL INTERFACES ---
 
     // 1. Field Intake: Lodge Complaint (with Trie & Duplicate Check)
     int lodgeComplaint(CivicCategory category, const string& title, 
@@ -173,7 +173,7 @@ public:
         return tagTrie.autocomplete(prefix);
     }
 
-    // --- DIVYANSH'S CORE & POLITICIAN HUB INTERFACES ---
+    // --- CORE & POLITICIAN HUB INTERFACES ---
 
     // View Highest Priority Crisis from Max-Heap: O(1)
     void viewTopEmergency() const {

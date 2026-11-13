@@ -23,21 +23,21 @@ void printMasterMenu() {
     cout << "\n=================================================================" << endl;
     cout << "                 MASTER SYSTEM CONTROL DASHBOARD                 " << endl;
     cout << "=================================================================" << endl;
-    cout << " [1] ARJUN'S GROUND-LEVEL FIELD PORTAL" << endl;
-    cout << "     • Lodge Citizen Complaint (Duplicate Detection + Trie Tagging)" << endl;
-    cout << "     • Upvote Ticket (Anti-Sybil Single-Vote Enforcement)" << endl;
-    cout << "     • Submit Commendation & Democratic Verification" << endl;
-    cout << "     • Live Prefix Trie Autocomplete Tag Query" << endl;
-    cout << "\n [2] DIVYANSH'S CORE DISPATCH & POLITICIAN AUDIT ENGINE" << endl;
-    cout << "     • Peek Top Emergency Crisis in Max-Heap (O(1))" << endl;
-    cout << "     • Claim Ticket & Allocate Municipal Budget (FSM Transition)" << endl;
-    cout << "     • Mark Work Resolved with Audit Proof (FSM Transition)" << endl;
-    cout << "     • Red-Black Tree Politician Scorecard Audit (0-100 Rating)" << endl;
-    cout << "\n [3] DIVYANSH'S ECONOMIC & WELFARE ENGINE (PILLAR 2)" << endl;
-    cout << "     • Multidimensional Poverty Index (MPI) Demographic Range Query" << endl;
-    cout << "     • 0/1 Knapsack Dynamic Programming Stimulus Optimization" << endl;
-    cout << "     • Fenwick Tree (BIT) Ward Food Reserve Range Queries" << endl;
-    cout << "     • Autonomous Macroeconomic Policy Triggers at Queue Roots" << endl;
+    cout << " [1] CITIZEN FIELD PORTAL" << endl;
+    cout << "     - Lodge Citizen Complaint (Duplicate Detection + Trie Tagging)" << endl;
+    cout << "     - Upvote Ticket (Anti-Sybil Single-Vote Enforcement)" << endl;
+    cout << "     - Submit Commendation & Democratic Verification" << endl;
+    cout << "     - Live Prefix Trie Autocomplete Tag Query" << endl;
+    cout << "\n [2] CORE DISPATCH & POLITICIAN AUDIT ENGINE" << endl;
+    cout << "     - Peek Top Emergency Crisis in Max-Heap (O(1))" << endl;
+    cout << "     - Claim Ticket & Allocate Municipal Budget (FSM Transition)" << endl;
+    cout << "     - Mark Work Resolved with Audit Proof (FSM Transition)" << endl;
+    cout << "     - Red-Black Tree Politician Scorecard Audit (0-100 Rating)" << endl;
+    cout << "\n [3] ECONOMIC & WELFARE ENGINE (PILLAR 2)" << endl;
+    cout << "     - Multidimensional Poverty Index (MPI) Demographic Range Query" << endl;
+    cout << "     - 0/1 Knapsack Dynamic Programming Stimulus Optimization" << endl;
+    cout << "     - Fenwick Tree (BIT) Ward Food Reserve Range Queries" << endl;
+    cout << "     - Autonomous Macroeconomic Policy Triggers at Queue Roots" << endl;
     cout << "\n [4] UNIFIED INTER-PORTAL COMMUNICATION BRIDGE (LIVE DEMO)" << endl;
     cout << "     • Field Portal Ingestion -> Core Max-Heap -> Skill Trie Labor" << endl;
     cout << "       Absorption -> Food Grain Influx -> Delta BPL Politician Audit" << endl;
@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
 
         switch (choice) {
             case 1: {
-                cout << "\n--- ARJUN'S GROUND-LEVEL FIELD PORTAL ---" << endl;
+                cout << "\n--- CITIZEN FIELD PORTAL (INTAKE & DUPLICATE CHECK) ---" << endl;
                 cout << "1. Lodge Grievance\n2. Upvote Ticket\n3. Autocomplete Prefix Search\n4. Submit Compliment\nSelect: ";
                 int sub;
                 if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
@@ -186,7 +186,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 2: {
-                cout << "\n--- DIVYANSH'S CORE ENGINE & POLITICIAN INTELLIGENCE ---" << endl;
+                cout << "\n--- CORE DISPATCH & POLITICIAN AUDIT ENGINE ---" << endl;
                 cout << "1. Peek Max-Heap Top Emergency\n2. Claim Ticket (FSM)\n3. Resolve Ticket (FSM)\n4. Politician Audit\nSelect: ";
                 int sub;
                 if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
@@ -216,7 +216,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 3: {
-                cout << "\n--- DIVYANSH'S ECONOMIC & WELFARE ENGINE (PILLAR 2) ---" << endl;
+                cout << "\n--- ECONOMIC & WELFARE ENGINE (PILLAR 2) ---" << endl;
                 cout << "1. 0/1 Knapsack Stimulus Allocation\n2. Fenwick Tree Ward Food Reserves\n3. Demographic Range Query (B+ Tree Sim)\nSelect: ";
                 int sub;
                 if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
