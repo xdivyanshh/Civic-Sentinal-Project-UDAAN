@@ -1,284 +1,122 @@
 #include <iostream>
+#include <vector>
 #include <string>
-#include <limits>
-#include "CivicSentinelSystem.hpp"
+#include <iomanip>
 
-using namespace std;
-using namespace CivicSentinel;
+#include "EconomicEngine.hpp"
 
-void printBanner() {
-    cout << "\n=================================================================" << endl;
-    cout << "   CIVIC-SENTINEL: DEMOCRATIC ACCOUNTABILITY & GOVERNANCE ENGINE " << endl;
-    cout << "      Jaypee Institute of Information Technology (JIIT, Noida)   " << endl;
-    cout << "          Data Structures Lab (15B17CI371) | Batch B2            " << endl;
-    cout << "=================================================================" << endl;
-}
-
-void printMenu() {
-    cout << "\n--- GROUND-LEVEL FIELD PORTAL (ARJUN) ---" << endl;
-    cout << " 1. Lodge a Citizen Complaint (with Duplicate & Trie check)" << endl;
-    cout << " 2. Upvote an Existing Issue (Anti-Sybil Vault protected)" << endl;
-    cout << " 3. Submit Citizen Compliment (Commendation & FSM Verification)" << endl;
-    cout << " 4. Propose a Civic Policy Suggestion" << endl;
-    cout << " 5. Autocomplete Search for Civic Tags (Prefix Trie)" << endl;
-    cout << "\n--- CORE ENGINE & POLITICIAN INTELLIGENCE (DIVYANSH) ---" << endl;
-    cout << " 6. Peek Highest-Priority Crisis in Max-Heap (O(1))" << endl;
-    cout << " 7. Municipal Official: Claim Issue & Assign Budget (FSM)" << endl;
-    cout << " 8. Municipal Official: Mark Work Resolved with Proof (FSM)" << endl;
-    cout << " 9. Run Politician 0-100 Accountability Audit (Red-Black Tree)" << endl;
-    cout << " 10. View Master Citizen Registry" << endl;
-    cout << "\n--- AUTOMATED VIVA VERIFICATION ---" << endl;
-    cout << " 11. Run Full End-to-End Automated Simulation (One-Click Demo)" << endl;
-    cout << " 0. Exit System" << endl;
-    cout << "=================================================================" << endl;
-    cout << "Select an Option [0-11]: ";
-}
-
-void runAutomatedDemo(CivicSentinelSystem& system) {
-    cout << "\n========================================================" << endl;
-    cout << "   STARTING AUTOMATED END-TO-END DEMO SIMULATION        " << endl;
-    cout << "========================================================" << endl;
-
-    // 1. Prefix Trie test
-    cout << "\n>>> [DEMO 1: Prefix Trie Autocomplete for 'wat']" << endl;
-    auto matches = system.searchAutocompleteTags("wat");
-    for (const string& match : matches) {
-        cout << "  -> Found tag: " << match << endl;
-    }
-
-    // 2. Duplicate Detection test
-    cout << "\n>>> [DEMO 2: Near-Duplicate Detection in Ward-12]" << endl;
-    system.lodgeComplaint(
-        CivicCategory::ROADS_INFRASTRUCTURE,
-        "Dangerous Pothole on Ring Road highway", // Very similar to existing #101
-        "Another complaint about the same crater",
-        "Ward-12", "CITIZEN_BOB", SeverityLevel::HIGH
-    );
-
-    // 3. Anti-Sybil Vault test
-    cout << "\n>>> [DEMO 3: Anti-Sybil Single-Vote Enforcement on Ticket #102]" << endl;
-    system.voteOnGrievance("CITIZEN_VOTER_1", 102);
-    system.voteOnGrievance("CITIZEN_VOTER_2", 102);
-    // Duplicate attack:
-    system.voteOnGrievance("CITIZEN_VOTER_1", 102);
-
-    // 4. Max-Heap Priority scheduling test
-    cout << "\n>>> [DEMO 4: Max-Heap Dispatch Scheduling]" << endl;
-    system.viewTopEmergency();
-
-    // 5. Finite State Machine lifecycle test
-    cout << "\n>>> [DEMO 5: Full FSM Lifecycle State Transition on Ticket #102]" << endl;
-    cout << "Step A: Attempt illegal early resolve:" << endl;
-    system.resolveTicket(102, "Trying to close without budget");
-
-    cout << "\nStep B: Legitimate Claim with Budget:" << endl;
-    system.claimTicket(102, "Executive Engineer V. K. Saxena", 85000.0);
-
-    cout << "\nStep C: Legitimate Municipal Completion:" << endl;
-    system.resolveTicket(102, "Main pipeline repaired and tested; water purity verified at 99.4%");
-
-    cout << "\nStep D: Citizen Democratic Verification via Compliment:" << endl;
-    system.lodgeCompliment(
-        CivicCategory::WATER_SUPPLY,
-        "Clean drinking water restored in Sector 62!",
-        "Water runs crystal clear now. Fast work by the municipal crew.",
-        "Ward-12", "CITIZEN_KAVITA", 102, 5, "Executive Engineer V. K. Saxena"
-    );
-
-    // 6. Red-Black Tree Politician Evaluation
-    cout << "\n>>> [DEMO 6: Politician Accountability Audit (Red-Black Tree Range Query)]" << endl;
-    system.auditPolitician("Hon. Rajeshwar Singh (MLA)", "Ward-12 (Noida)", "2026-07", "2026-10");
-
-    cout << "\n========================================================" << endl;
-    cout << "   AUTOMATED DEMO COMPLETE: ALL DSA & OOP VERIFIED!     " << endl;
-    cout << "========================================================" << endl;
+void print_banner() {
+    std::cout << "========================================================================\n";
+    std::cout << "          CIVIC-SENTINEL: ECONOMIC & WELFARE ENGINE (PROJECT UDAAN)     \n";
+    std::cout << "  Democratic Accountability, Citizen Ingestion & Macroeconomic Policy   \n";
+    std::cout << "========================================================================\n\n";
 }
 
 int main() {
-    CivicSentinelSystem system;
-    printBanner();
+    print_banner();
 
-    int choice = -1;
-    while (choice != 0) {
-        printMenu();
-        if (!(cin >> choice)) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input! Please enter a number." << endl;
-            continue;
-        }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
+    // Instantiate Master Engine with 20 Wards
+    MasterEconomicEngine engine(20);
 
-        switch (choice) {
-            case 1: {
-                cout << "\n--- LODGE CITIZEN COMPLAINT ---" << endl;
-                string title, desc, ward, citizen;
-                int catChoice, sevChoice;
+    // ========================================================================
+    // SCENARIO 1: CITIZEN DEMOGRAPHIC INGESTION & MPI CALCULATION
+    // ========================================================================
+    std::cout << "[SCENARIO 1] Ingesting Citizen Profiles (Multidimensional Indicators)...\n";
+    
+    // Register citizens across Wards 1 to 5
+    engine.register_citizen({1001, 3, 3500.0, 5, 30000.0, 4, {"masonry", "construction"}, 0, true});
+    engine.register_citizen({1002, 3, 4200.0, 3, 15000.0, 2, {"masonry", "carpentry"}, 1, true});
+    engine.register_citizen({1003, 3, 18000.0, 1, 0.0, 1, {"data-entry", "accounting"}, 2, false});
+    engine.register_citizen({1004, 4, 2900.0, 6, 45000.0, 5, {"construction", "labor"}, 0, true});
+    engine.register_citizen({1005, 4, 5500.0, 2, 8000.0, 2, {"plumbing", "welding"}, 1, true});
+    engine.register_citizen({1006, 2, 3100.0, 4, 50000.0, 4, {"tailoring", "weaving"}, 0, true});
+    engine.register_citizen({1007, 2, 4800.0, 3, 20000.0, 3, {"handicraft", "weaving"}, 1, true});
+    engine.register_citizen({1008, 1, 25000.0, 1, 0.0, 1, {"management", "it"}, 2, false});
 
-                cout << "Enter Complaint Title: ";
-                getline(cin, title);
-                cout << "Enter Description: ";
-                getline(cin, desc);
-                cout << "Enter Ward (e.g. Ward-12): ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID (e.g. CITIZEN_007): ";
-                getline(cin, citizen);
+    std::cout << "  ✓ Total Registered Citizens: " << engine.get_citizen_count() << "\n\n";
 
-                cout << "Select Category: (0: Sanitation, 1: Roads, 2: Water, 3: Health, 4: Power): ";
-                cin >> catChoice;
-                cout << "Select Severity: (1: Low, 2: Medium, 3: High, 4: Critical): ";
-                cin >> sevChoice;
-
-                system.lodgeComplaint(
-                    static_cast<CivicCategory>(catChoice),
-                    title, desc, ward, citizen,
-                    static_cast<SeverityLevel>(sevChoice)
-                );
-                break;
-            }
-            case 2: {
-                cout << "\n--- UPVOTE A CITIZEN TICKET ---" << endl;
-                string citizenId;
-                int ticketId;
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizenId);
-                cout << "Enter Ticket ID to Upvote: ";
-                cin >> ticketId;
-
-                system.voteOnGrievance(citizenId, ticketId);
-                break;
-            }
-            case 3: {
-                cout << "\n--- SUBMIT CITIZEN COMMENDATION (COMPLIMENT) ---" << endl;
-                string title, remarks, ward, citizen, officer;
-                int ticketId, stars;
-
-                cout << "Enter Target Ticket ID Ref: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Commendation Title: ";
-                getline(cin, title);
-                cout << "Enter Remarks: ";
-                getline(cin, remarks);
-                cout << "Enter Ward: ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizen);
-                cout << "Officer Name to Recognize: ";
-                getline(cin, officer);
-                cout << "Satisfaction Rating (1 to 5 Stars): ";
-                cin >> stars;
-
-                system.lodgeCompliment(
-                    CivicCategory::GENERAL_POLICY,
-                    title, remarks, ward, citizen,
-                    ticketId, stars, officer
-                );
-                break;
-            }
-            case 4: {
-                cout << "\n--- PROPOSE CIVIC POLICY SUGGESTION ---" << endl;
-                string title, desc, ward, citizen, dept;
-                int beneficiaries;
-
-                cout << "Enter Suggestion Title: ";
-                getline(cin, title);
-                cout << "Enter Detailed Proposal: ";
-                getline(cin, desc);
-                cout << "Enter Ward: ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizen);
-                cout << "Target Municipal Department: ";
-                getline(cin, dept);
-                cout << "Projected Public Beneficiaries (Number of Citizens): ";
-                cin >> beneficiaries;
-
-                system.lodgeSuggestion(
-                    CivicCategory::GENERAL_POLICY,
-                    title, desc, ward, citizen, dept, beneficiaries
-                );
-                break;
-            }
-            case 5: {
-                cout << "\n--- AUTOCOMPLETE TAG SEARCH (PREFIX TRIE) ---" << endl;
-                string prefix;
-                cout << "Enter prefix to search (e.g. 'wat', 'pot', 'san', 'hosp'): ";
-                getline(cin, prefix);
-
-                auto matches = system.searchAutocompleteTags(prefix);
-                cout << "Matching Civic Tags found (" << matches.size() << "):" << endl;
-                for (const auto& tag : matches) {
-                    cout << "  -> " << tag << endl;
-                }
-                break;
-            }
-            case 6: {
-                system.viewTopEmergency();
-                break;
-            }
-            case 7: {
-                cout << "\n--- CLAIM TICKET & ALLOCATE BUDGET (FSM) ---" << endl;
-                int ticketId;
-                string officer;
-                double budget;
-
-                cout << "Enter Ticket ID to Claim: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Officer Name: ";
-                getline(cin, officer);
-                cout << "Enter Allocated Budget ($): ";
-                cin >> budget;
-
-                system.claimTicket(ticketId, officer, budget);
-                break;
-            }
-            case 8: {
-                cout << "\n--- MARK ISSUE RESOLVED (FSM) ---" << endl;
-                int ticketId;
-                string proof;
-
-                cout << "Enter Ticket ID: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Completion Proof Notes: ";
-                getline(cin, proof);
-
-                system.resolveTicket(ticketId, proof);
-                break;
-            }
-            case 9: {
-                cout << "\n--- POLITICIAN ACCOUNTABILITY AUDIT (RED-BLACK TREE) ---" << endl;
-                string name, ward, startM, endM;
-                cout << "Enter Politician Name: ";
-                getline(cin, name);
-                cout << "Enter Ward / Constituency: ";
-                getline(cin, ward);
-                cout << "Start Month (YYYY-MM, e.g. '2026-07'): ";
-                getline(cin, startM);
-                cout << "End Month (YYYY-MM, e.g. '2026-10'): ";
-                getline(cin, endM);
-
-                system.auditPolitician(name, ward, startM, endM);
-                break;
-            }
-            case 10: {
-                system.displayAllRecords();
-                break;
-            }
-            case 11: {
-                runAutomatedDemo(system);
-                break;
-            }
-            case 0: {
-                cout << "\nShutting down Civic-Sentinel. Jai Hind!" << endl;
-                break;
-            }
-            default:
-                cout << "Invalid choice! Please select 0 to 11." << endl;
-        }
+    // ========================================================================
+    // SCENARIO 2: DEMOGRAPHIC RANGE SCAN (B+ TREE SIMULATION)
+    // ========================================================================
+    std::cout << "[SCENARIO 2] Executing B+ Tree Demographic Range Query...\n";
+    std::cout << "  Query: All citizens with Income in [Rs.0, Rs.6000] across all wards\n";
+    auto low_income_group = engine.query_citizens_by_income_range(0.0, 6000.0);
+    for (uint64_t cid : low_income_group) {
+        auto c = engine.get_citizen(cid);
+        if (c) c->display();
     }
+    std::cout << "\n";
 
+    // ========================================================================
+    // SCENARIO 3: BASELINE MACROECONOMIC TELEMETRY (CYCLE 202611)
+    // ========================================================================
+    std::cout << "[SCENARIO 3] Recording Baseline Macroeconomic Snapshot (Red-Black BST)...\n";
+    engine.record_monthly_telemetry(202611);
+
+    // ========================================================================
+    // SCENARIO 4: SECTORAL GRIEVANCES & ANTI-SYBIL DEDUPLICATION
+    // ========================================================================
+    std::cout << "\n[SCENARIO 4] Lodging Grievances across Sectoral Max-Heaps...\n";
+    
+    // Grievance 1: Severe Food Shortage in Ward 3
+    engine.lodge_or_vote_grievance(1001, 801, EconomicSector::PDS_FOOD_SECURITY, 3, "Fair price shop empty for 3 weeks; grain ration exhausted.");
+    engine.lodge_or_vote_grievance(1002, 801, EconomicSector::PDS_FOOD_SECURITY, 3, "Confirming empty grain storage in Ward 3.");
+
+    // Anti-Sybil test: Duplicate vote attempt by Citizen 1001
+    std::cout << "\n  Testing Anti-Sybil Protection (Duplicate Vote Injection):\n";
+    engine.lodge_or_vote_grievance(1001, 801, EconomicSector::PDS_FOOD_SECURITY, 3, "Duplicate vote malicious injection.");
+
+    // Grievance 2: Unemployment Spike in Ward 4
+    engine.lodge_or_vote_grievance(1004, 802, EconomicSector::UNEMPLOYMENT_SPIKE, 4, "Factory closure led to mass day-wage layoffs in Ward 4.");
+
+    // Grievance 3: Predatory Usury / Debt Crisis in Ward 2
+    engine.lodge_or_vote_grievance(1006, 803, EconomicSector::DEBT_USURY_CRISIS, 2, "Informal loan sharks seizing assets from slum artisans.");
+
+    // Advance clock to trigger starvation aging
+    std::cout << "\n  Advancing system clock ticks by 150 to demonstrate Aging Factor in Heap...\n";
+    engine.advance_clock(150);
+
+    // ========================================================================
+    // SCENARIO 5: AUTONOMOUS POLICY TRIGGER EVALUATION AT QUEUE ROOTS
+    // ========================================================================
+    std::cout << "\n[SCENARIO 5] Autonomous Macro Policy Triggers via Queue Roots...\n";
+    engine.evaluate_macro_policy_triggers(45.0);
+
+    // ========================================================================
+    // SCENARIO 6: REGIONAL COMMODITY INVENTORY (FENWICK TREE QUERY)
+    // ========================================================================
+    std::cout << "\n[SCENARIO 6] Regional Foodgrain Stock Telemetry via Fenwick Tree...\n";
+    int64_t ward3_stock = engine.query_regional_grain_stock(3, 3);
+    int64_t sector_stock = engine.query_regional_grain_stock(1, 5);
+    std::cout << "  - Ward #3 Grain Reserve (After Emergency Influx) : " << ward3_stock << " kg\n";
+    std::cout << "  - Contiguous Sector Wards [1..5] Total Reserves : " << sector_stock << " kg\n";
+
+    // ========================================================================
+    // SCENARIO 7: TARGETED DIRECT BENEFIT TRANSFER (DBT) VIA 0/1 KNAPSACK
+    // ========================================================================
+    std::cout << "\n[SCENARIO 7] Executing Targeted DBT Stimulus via 0/1 Knapsack...\n";
+    engine.execute_targeted_dbt(4, 6000.0);
+
+    // ========================================================================
+    // SCENARIO 8: POST-INTERVENTION AUDIT & POVERTY REDUCTION DELTA
+    // ========================================================================
+    std::cout << "\n[SCENARIO 8] Recording Post-Intervention Macroeconomic Snapshot (Cycle 202612)...\n";
+    engine.record_monthly_telemetry(202612);
+
+    // Calculate delta for administrative accountability rating
+    double delta_bpl = engine.get_poverty_reduction_delta(202611, 202612);
+    std::cout << "\n========================================================================\n";
+    std::cout << "  ADMINISTRATIVE EVALUATION FEEDBACK DELTA                              \n";
+    std::cout << "========================================================================\n";
+    std::cout << "  Calculated Poverty Reduction Delta (Cycle 202611 -> 202612): " 
+              << std::fixed << std::setprecision(2) << delta_bpl << "%\n";
+    std::cout << "  This delta is fed directly into the Administrative Rating Engine:\n";
+    std::cout << "  Score Contribution = 0.35 * PovertyReductionDelta (" << (0.35 * delta_bpl) << " pts)\n";
+    std::cout << "========================================================================\n";
+
+    // Display the full audit trail from the Red-Black BST
+    engine.display_audit_trail();
+
+    std::cout << "\n>>> [CIVIC-SENTINEL ECONOMIC ENGINE SIMULATION COMPLETED SUCCESSFULLY]\n";
     return 0;
 }
