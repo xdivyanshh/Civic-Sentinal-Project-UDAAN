@@ -8,9 +8,13 @@ using namespace CivicSentinel;
 
 void printBanner() {
     cout << "\n=================================================================" << endl;
-    cout << "   CIVIC-SENTINEL: DEMOCRATIC ACCOUNTABILITY & GOVERNANCE ENGINE " << endl;
+    cout << "     PROJECT UDAAN: DEMOCRATIC FIELD INTELLIGENCE & GOVERNANCE   " << endl;
     cout << "      Jaypee Institute of Information Technology (JIIT, Noida)   " << endl;
+    cout << "   Dept. of Computer Science & Engineering and Information Tech  " << endl;
     cout << "          Data Structures Lab (15B17CI371) | Batch B2            " << endl;
+    cout << "-----------------------------------------------------------------" << endl;
+    cout << "       Abhishek Bansal (2501030123) | Divyansh Agarwal (2501030124)       " << endl;
+    cout << "                       Arjun Bhardwaj (2501030134)                        " << endl;
     cout << "=================================================================" << endl;
 }
 
@@ -102,6 +106,7 @@ int main() {
     while (choice != 0) {
         printMenu();
         if (!(cin >> choice)) {
+            if (cin.eof()) break;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input! Please enter a number." << endl;
@@ -272,7 +277,7 @@ int main() {
                 break;
             }
             case 0: {
-                cout << "\nShutting down Civic-Sentinel. Jai Hind!" << endl;
+                cout << "\nShutting down Project Udaan. Jai Hind!" << endl;
                 break;
             }
             default:
