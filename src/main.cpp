@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include "CivicSentinelSystem.hpp"
+#include <vector>
+#include "UdaanUnifiedBridge.hpp"
 
 using namespace std;
 using namespace CivicSentinel;
 
-void printBanner() {
+void printMasterBanner() {
     cout << "\n=================================================================" << endl;
     cout << "     PROJECT UDAAN: DEMOCRATIC FIELD INTELLIGENCE & GOVERNANCE   " << endl;
     cout << "      Jaypee Institute of Information Technology (JIIT, Noida)   " << endl;
@@ -18,24 +19,32 @@ void printBanner() {
     cout << "=================================================================" << endl;
 }
 
-void printMenu() {
-    cout << "\n--- GROUND-LEVEL FIELD PORTAL (ARJUN) ---" << endl;
-    cout << " 1. Lodge a Citizen Complaint (with Duplicate & Trie check)" << endl;
-    cout << " 2. Upvote an Existing Issue (Anti-Sybil Vault protected)" << endl;
-    cout << " 3. Submit Citizen Compliment (Commendation & FSM Verification)" << endl;
-    cout << " 4. Propose a Civic Policy Suggestion" << endl;
-    cout << " 5. Autocomplete Search for Civic Tags (Prefix Trie)" << endl;
-    cout << "\n--- CORE ENGINE & POLITICIAN INTELLIGENCE (DIVYANSH) ---" << endl;
-    cout << " 6. Peek Highest-Priority Crisis in Max-Heap (O(1))" << endl;
-    cout << " 7. Municipal Official: Claim Issue & Assign Budget (FSM)" << endl;
-    cout << " 8. Municipal Official: Mark Work Resolved with Proof (FSM)" << endl;
-    cout << " 9. Run Politician 0-100 Accountability Audit (Red-Black Tree)" << endl;
-    cout << " 10. View Master Citizen Registry" << endl;
-    cout << "\n--- AUTOMATED VIVA VERIFICATION ---" << endl;
-    cout << " 11. Run Full End-to-End Automated Simulation (One-Click Demo)" << endl;
-    cout << " 0. Exit System" << endl;
+void printMasterMenu() {
+    cout << "\n=================================================================" << endl;
+    cout << "                 MASTER SYSTEM CONTROL DASHBOARD                 " << endl;
     cout << "=================================================================" << endl;
-    cout << "Select an Option [0-11]: ";
+    cout << " [1] ARJUN'S GROUND-LEVEL FIELD PORTAL" << endl;
+    cout << "     • Lodge Citizen Complaint (Duplicate Detection + Trie Tagging)" << endl;
+    cout << "     • Upvote Ticket (Anti-Sybil Single-Vote Enforcement)" << endl;
+    cout << "     • Submit Commendation & Democratic Verification" << endl;
+    cout << "     • Live Prefix Trie Autocomplete Tag Query" << endl;
+    cout << "\n [2] DIVYANSH'S CORE DISPATCH & POLITICIAN AUDIT ENGINE" << endl;
+    cout << "     • Peek Top Emergency Crisis in Max-Heap (O(1))" << endl;
+    cout << "     • Claim Ticket & Allocate Municipal Budget (FSM Transition)" << endl;
+    cout << "     • Mark Work Resolved with Audit Proof (FSM Transition)" << endl;
+    cout << "     • Red-Black Tree Politician Scorecard Audit (0-100 Rating)" << endl;
+    cout << "\n [3] DIVYANSH'S ECONOMIC & WELFARE ENGINE (PILLAR 2)" << endl;
+    cout << "     • Multidimensional Poverty Index (MPI) Demographic Range Query" << endl;
+    cout << "     • 0/1 Knapsack Dynamic Programming Stimulus Optimization" << endl;
+    cout << "     • Fenwick Tree (BIT) Ward Food Reserve Range Queries" << endl;
+    cout << "     • Autonomous Macroeconomic Policy Triggers at Queue Roots" << endl;
+    cout << "\n [4] UNIFIED INTER-PORTAL COMMUNICATION BRIDGE (LIVE DEMO)" << endl;
+    cout << "     • Field Portal Ingestion -> Core Max-Heap -> Skill Trie Labor" << endl;
+    cout << "       Absorption -> Food Grain Influx -> Delta BPL Politician Audit" << endl;
+    cout << "\n [5] FULL END-TO-END AUTOMATED VIVA SIMULATION" << endl;
+    cout << " [0] Exit System" << endl;
+    cout << "=================================================================" << endl;
+    cout << "Select Portal / Operation [0-5]: ";
 }
 
 void runAutomatedDemo(CivicSentinelSystem& system) {
@@ -98,13 +107,33 @@ void runAutomatedDemo(CivicSentinelSystem& system) {
     cout << "========================================================" << endl;
 }
 
-int main() {
-    CivicSentinelSystem system;
-    printBanner();
+int main(int argc, char* argv[]) {
+    UdaanUnifiedBridge bridge;
+
+    // Check CLI arguments
+    if (argc > 1) {
+        string arg = argv[1];
+        if (arg == "--bridge" || arg == "-b") {
+            printMasterBanner();
+            bridge.runFullInterPortalDemo();
+            return 0;
+        } else if (arg == "--demo" || arg == "-d") {
+            printMasterBanner();
+            runAutomatedDemo(bridge.civicSystem);
+            return 0;
+        } else if (arg == "--economic" || arg == "-e") {
+            printMasterBanner();
+            bridge.runKnapsackStimulus(4, 6000.0);
+            bridge.queryWardStocks(1, 5);
+            return 0;
+        }
+    }
+
+    printMasterBanner();
 
     int choice = -1;
     while (choice != 0) {
-        printMenu();
+        printMasterMenu();
         if (!(cin >> choice)) {
             if (cin.eof()) break;
             cin.clear();
@@ -112,176 +141,126 @@ int main() {
             cout << "Invalid input! Please enter a number." << endl;
             continue;
         }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear buffer
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) {
             case 1: {
-                cout << "\n--- LODGE CITIZEN COMPLAINT ---" << endl;
-                string title, desc, ward, citizen;
-                int catChoice, sevChoice;
-
-                cout << "Enter Complaint Title: ";
-                getline(cin, title);
-                cout << "Enter Description: ";
-                getline(cin, desc);
-                cout << "Enter Ward (e.g. Ward-12): ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID (e.g. CITIZEN_007): ";
-                getline(cin, citizen);
-
-                cout << "Select Category: (0: Sanitation, 1: Roads, 2: Water, 3: Health, 4: Power): ";
-                cin >> catChoice;
-                cout << "Select Severity: (1: Low, 2: Medium, 3: High, 4: Critical): ";
-                cin >> sevChoice;
-
-                system.lodgeComplaint(
-                    static_cast<CivicCategory>(catChoice),
-                    title, desc, ward, citizen,
-                    static_cast<SeverityLevel>(sevChoice)
-                );
-                break;
-            }
-            case 2: {
-                cout << "\n--- UPVOTE A CITIZEN TICKET ---" << endl;
-                string citizenId;
-                int ticketId;
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizenId);
-                cout << "Enter Ticket ID to Upvote: ";
-                cin >> ticketId;
-
-                system.voteOnGrievance(citizenId, ticketId);
-                break;
-            }
-            case 3: {
-                cout << "\n--- SUBMIT CITIZEN COMMENDATION (COMPLIMENT) ---" << endl;
-                string title, remarks, ward, citizen, officer;
-                int ticketId, stars;
-
-                cout << "Enter Target Ticket ID Ref: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Commendation Title: ";
-                getline(cin, title);
-                cout << "Enter Remarks: ";
-                getline(cin, remarks);
-                cout << "Enter Ward: ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizen);
-                cout << "Officer Name to Recognize: ";
-                getline(cin, officer);
-                cout << "Satisfaction Rating (1 to 5 Stars): ";
-                cin >> stars;
-
-                system.lodgeCompliment(
-                    CivicCategory::GENERAL_POLICY,
-                    title, remarks, ward, citizen,
-                    ticketId, stars, officer
-                );
-                break;
-            }
-            case 4: {
-                cout << "\n--- PROPOSE CIVIC POLICY SUGGESTION ---" << endl;
-                string title, desc, ward, citizen, dept;
-                int beneficiaries;
-
-                cout << "Enter Suggestion Title: ";
-                getline(cin, title);
-                cout << "Enter Detailed Proposal: ";
-                getline(cin, desc);
-                cout << "Enter Ward: ";
-                getline(cin, ward);
-                cout << "Enter Your Citizen ID: ";
-                getline(cin, citizen);
-                cout << "Target Municipal Department: ";
-                getline(cin, dept);
-                cout << "Projected Public Beneficiaries (Number of Citizens): ";
-                cin >> beneficiaries;
-
-                system.lodgeSuggestion(
-                    CivicCategory::GENERAL_POLICY,
-                    title, desc, ward, citizen, dept, beneficiaries
-                );
-                break;
-            }
-            case 5: {
-                cout << "\n--- AUTOCOMPLETE TAG SEARCH (PREFIX TRIE) ---" << endl;
-                string prefix;
-                cout << "Enter prefix to search (e.g. 'wat', 'pot', 'san', 'hosp'): ";
-                getline(cin, prefix);
-
-                auto matches = system.searchAutocompleteTags(prefix);
-                cout << "Matching Civic Tags found (" << matches.size() << "):" << endl;
-                for (const auto& tag : matches) {
-                    cout << "  -> " << tag << endl;
+                cout << "\n--- ARJUN'S GROUND-LEVEL FIELD PORTAL ---" << endl;
+                cout << "1. Lodge Grievance\n2. Upvote Ticket\n3. Autocomplete Prefix Search\n4. Submit Compliment\nSelect: ";
+                int sub;
+                if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
+                cin.ignore(1000, '\n');
+                if (sub == 1) {
+                    string title, desc, ward, citizen;
+                    int cat, sev;
+                    cout << "Title: "; getline(cin, title);
+                    cout << "Description: "; getline(cin, desc);
+                    cout << "Ward (e.g. Ward-12): "; getline(cin, ward);
+                    cout << "Citizen ID: "; getline(cin, citizen);
+                    cout << "Category (0: Sanitation, 1: Roads, 2: Water, 3: Health, 4: Power): "; cin >> cat;
+                    cout << "Severity (1: Low, 2: Medium, 3: High, 4: Critical): "; cin >> sev;
+                    bridge.lodgeGrievance(static_cast<CivicCategory>(cat), title, desc, ward, citizen, static_cast<SeverityLevel>(sev));
+                } else if (sub == 2) {
+                    string citizen; int tid;
+                    cout << "Citizen ID: "; getline(cin, citizen);
+                    cout << "Ticket ID: "; cin >> tid;
+                    bridge.upvoteTicket(citizen, tid);
+                } else if (sub == 3) {
+                    string prefix;
+                    cout << "Enter Prefix (e.g. 'wat', 'pot', 'san'): "; getline(cin, prefix);
+                    auto tags = bridge.searchTags(prefix);
+                    cout << "Found " << tags.size() << " matching tags:" << endl;
+                    for (const auto& t : tags) cout << "  -> " << t << endl;
+                } else if (sub == 4) {
+                    string title, remarks, ward, citizen, officer;
+                    int tid, stars;
+                    cout << "Ticket Ref: "; cin >> tid; cin.ignore();
+                    cout << "Title: "; getline(cin, title);
+                    cout << "Remarks: "; getline(cin, remarks);
+                    cout << "Ward: "; getline(cin, ward);
+                    cout << "Citizen ID: "; getline(cin, citizen);
+                    cout << "Officer: "; getline(cin, officer);
+                    cout << "Stars (1-5): "; cin >> stars;
+                    bridge.lodgeCompliment(CivicCategory::GENERAL_POLICY, title, remarks, ward, citizen, tid, stars, officer);
                 }
                 break;
             }
-            case 6: {
-                system.viewTopEmergency();
+            case 2: {
+                cout << "\n--- DIVYANSH'S CORE ENGINE & POLITICIAN INTELLIGENCE ---" << endl;
+                cout << "1. Peek Max-Heap Top Emergency\n2. Claim Ticket (FSM)\n3. Resolve Ticket (FSM)\n4. Politician Audit\nSelect: ";
+                int sub;
+                if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
+                cin.ignore(1000, '\n');
+                if (sub == 1) {
+                    bridge.peekTopEmergency();
+                } else if (sub == 2) {
+                    int tid; string officer, skill; double budget;
+                    cout << "Ticket ID: "; cin >> tid; cin.ignore();
+                    cout << "Officer Name: "; getline(cin, officer);
+                    cout << "Allocated Budget ($): "; cin >> budget; cin.ignore();
+                    cout << "Required Skill (or enter to skip): "; getline(cin, skill);
+                    bridge.claimAndDispatchWork(tid, officer, budget, skill);
+                } else if (sub == 3) {
+                    int tid; string proof;
+                    cout << "Ticket ID: "; cin >> tid; cin.ignore();
+                    cout << "Completion Proof: "; getline(cin, proof);
+                    bridge.resolveTicket(tid, proof);
+                } else if (sub == 4) {
+                    string name, ward, sM, eM;
+                    cout << "Politician Name: "; getline(cin, name);
+                    cout << "Ward: "; getline(cin, ward);
+                    cout << "Start Month (YYYY-MM): "; getline(cin, sM);
+                    cout << "End Month (YYYY-MM): "; getline(cin, eM);
+                    bridge.runPoliticianAudit(name, ward, sM, eM);
+                }
                 break;
             }
-            case 7: {
-                cout << "\n--- CLAIM TICKET & ALLOCATE BUDGET (FSM) ---" << endl;
-                int ticketId;
-                string officer;
-                double budget;
-
-                cout << "Enter Ticket ID to Claim: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Officer Name: ";
-                getline(cin, officer);
-                cout << "Enter Allocated Budget ($): ";
-                cin >> budget;
-
-                system.claimTicket(ticketId, officer, budget);
+            case 3: {
+                cout << "\n--- DIVYANSH'S ECONOMIC & WELFARE ENGINE (PILLAR 2) ---" << endl;
+                cout << "1. 0/1 Knapsack Stimulus Allocation\n2. Fenwick Tree Ward Food Reserves\n3. Demographic Range Query (B+ Tree Sim)\nSelect: ";
+                int sub;
+                if (!(cin >> sub)) { cin.clear(); cin.ignore(1000, '\n'); break; }
+                cin.ignore(1000, '\n');
+                if (sub == 1) {
+                    int ward; double budget;
+                    cout << "Target Ward: "; cin >> ward;
+                    cout << "Available Relief Budget ($): "; cin >> budget;
+                    bridge.runKnapsackStimulus(ward, budget);
+                } else if (sub == 2) {
+                    int startW, endW;
+                    cout << "Start Ward [1-20]: "; cin >> startW;
+                    cout << "End Ward [1-20]: "; cin >> endW;
+                    bridge.queryWardStocks(startW, endW);
+                } else if (sub == 3) {
+                    double minInc, maxInc;
+                    cout << "Min Income: "; cin >> minInc;
+                    cout << "Max Income: "; cin >> maxInc;
+                    auto matched = bridge.economicEngine.query_citizens_by_income_range(minInc, maxInc);
+                    cout << "Found " << matched.size() << " citizens in range:" << endl;
+                    for (uint64_t cid : matched) {
+                        auto c = bridge.economicEngine.get_citizen(cid);
+                        if (c) c->display();
+                    }
+                }
                 break;
             }
-            case 8: {
-                cout << "\n--- MARK ISSUE RESOLVED (FSM) ---" << endl;
-                int ticketId;
-                string proof;
-
-                cout << "Enter Ticket ID: ";
-                cin >> ticketId;
-                cin.ignore();
-                cout << "Enter Completion Proof Notes: ";
-                getline(cin, proof);
-
-                system.resolveTicket(ticketId, proof);
+            case 4: {
+                bridge.runFullInterPortalDemo();
                 break;
             }
-            case 9: {
-                cout << "\n--- POLITICIAN ACCOUNTABILITY AUDIT (RED-BLACK TREE) ---" << endl;
-                string name, ward, startM, endM;
-                cout << "Enter Politician Name: ";
-                getline(cin, name);
-                cout << "Enter Ward / Constituency: ";
-                getline(cin, ward);
-                cout << "Start Month (YYYY-MM, e.g. '2026-07'): ";
-                getline(cin, startM);
-                cout << "End Month (YYYY-MM, e.g. '2026-10'): ";
-                getline(cin, endM);
-
-                system.auditPolitician(name, ward, startM, endM);
-                break;
-            }
-            case 10: {
-                system.displayAllRecords();
-                break;
-            }
-            case 11: {
-                runAutomatedDemo(system);
+            case 5: {
+                cout << "\n========================================================" << endl;
+                cout << "   STARTING AUTOMATED END-TO-END DEMO SIMULATION        " << endl;
+                cout << "========================================================" << endl;
+                runAutomatedDemo(bridge.civicSystem);
                 break;
             }
             case 0: {
-                cout << "\nShutting down Project Udaan. Jai Hind!" << endl;
+                cout << "\nShutting down Project Udaan Master Engine. Jai Hind!" << endl;
                 break;
             }
             default:
-                cout << "Invalid choice! Please select 0 to 11." << endl;
+                cout << "Invalid choice! Please select 0 to 5." << endl;
         }
     }
 
