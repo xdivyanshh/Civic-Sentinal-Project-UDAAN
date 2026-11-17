@@ -1,6 +1,6 @@
 @echo off
 echo ========================================================================
-echo   Launching PROJECT UDAAN Interactive Civic & Economic Portal
+echo   Launching PROJECT UDAAN Civic Dispatch Portal
 echo ========================================================================
-start "" "%~dp0PROJECT_UDAAN_INTERACTIVE_PORTAL.html"
-echo [✓] Opened portal in your default web browser!
+start "" "%~dp0web\index.html"
+echo [OK] Opened web\index.html in your default web browser!

@@ -1,935 +1,1274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Udaan — Data Structures Lab Portal</title>
-<style>
-  :root {
-    --bg-page: #F8FAFC;
-    --bg-card: #FFFFFF;
-    --text-primary: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #64748B;
-    --border-card: #CBD5E1;
-    --border-light: #E2E8F0;
-    --border-input: #94A3B8;
-    --border-dark: #0F172A;
-    --btn-primary-bg: #0F172A;
-    --btn-primary-text: #FFFFFF;
-    --btn-primary-hover: #334155;
-    --btn-secondary-bg: #FFFFFF;
-    --btn-secondary-text: #0F172A;
-    --btn-secondary-border: #0F172A;
-    --btn-secondary-hover: #F1F5F9;
-    --badge-bg: #F1F5F9;
-    --badge-text: #0F172A;
-    --badge-border: #94A3B8;
-    --code-bg: #0B0F19;
-    --code-text: #F8FAFC;
-    --radius-card: 8px;
-    --radius-input: 5px;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-page);
-    color: var(--text-primary);
-    line-height: 1.5;
-    padding: 36px 20px 60px 20px;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-
-  /* ========================================================================= */
-  /* INSTITUTIONAL HEADER                                                      */
-  /* ========================================================================= */
-  .portal-header {
-    background: var(--bg-card);
-    border: 2px solid var(--border-dark);
-    border-radius: var(--radius-card);
-    padding: 26px 32px;
-    margin-bottom: 28px;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  }
-
-  .portal-title {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.2px;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
-
-  .portal-subtitle {
-    font-size: 13.5px;
-    color: var(--text-secondary);
-    margin-bottom: 18px;
-    font-weight: 500;
-  }
-
-  .portal-meta-grid {
-    display: grid;
-    grid-template-columns: 1.8fr 1.2fr;
-    gap: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-light);
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-  }
-
-  .portal-meta-grid strong {
-    color: var(--text-primary);
-  }
-
-  .meta-code {
-    font-family: Consolas, monospace;
-    font-weight: 700;
-    color: var(--text-primary);
-    background: #F1F5F9;
-    padding: 1px 5px;
-    border-radius: 3px;
-    border: 1px solid #CBD5E1;
-  }
-
-  /* ========================================================================= */
-  /* SECTION CARDS                                                             */
-  /* ========================================================================= */
-  .section-card {
-    background: var(--bg-card);
-    border: 1.5px solid var(--border-card);
-    border-top: 4px solid var(--border-dark);
-    border-radius: var(--radius-card);
-    padding: 26px 32px;
-    margin-bottom: 28px;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
-  }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1.5px solid var(--border-dark);
-    padding-bottom: 14px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .section-title {
-    font-size: 15.5px;
-    font-weight: 800;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .badges-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .dsa-badge {
-    font-family: Consolas, monospace;
-    font-size: 11px;
-    font-weight: 700;
-    background: var(--badge-bg);
-    color: var(--badge-text);
-    border: 1.2px solid var(--badge-border);
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.2px;
-  }
-
-  /* ========================================================================= */
-  /* SUB-BLOCK CONTAINERS (INDIVIDUAL OPERATIONS)                              */
-  /* ========================================================================= */
-  .sub-block {
-    background: #FAFAFA;
-    border: 1px solid var(--border-light);
-    border-radius: 6px;
-    padding: 20px 22px;
-    margin-bottom: 20px;
-    transition: border-color 0.15s ease;
-  }
-
-  .sub-block:hover {
-    border-color: #94A3B8;
-  }
-
-  .sub-block:last-child {
-    margin-bottom: 0;
-  }
-
-  .sub-block-title {
-    font-size: 12.5px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px dashed #CBD5E1;
-    padding-bottom: 8px;
-  }
-
-  .sub-block-desc {
-    font-weight: 600;
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: Consolas, monospace;
-    text-transform: none;
-    letter-spacing: normal;
-  }
-
-  /* ========================================================================= */
-  /* GRIDS & FORM GROUPS                                                       */
-  /* ========================================================================= */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .grid-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: #334155;
-    margin-bottom: 6px;
-  }
-
-  input[type="text"], input[type="number"], select {
-    height: 40px;
-    padding: 8px 12px;
-    border: 1.5px solid var(--border-input);
-    border-radius: var(--radius-input);
-    font-size: 13.5px;
-    color: var(--text-primary);
-    background: #FFFFFF;
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    width: 100%;
-    font-family: inherit;
-  }
-
-  input:focus, select:focus {
-    border-color: var(--border-dark);
-    box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.15);
-  }
-
-  /* ========================================================================= */
-  /* BUTTONS & BUTTON GROUPS                                                   */
-  /* ========================================================================= */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    padding: 0 18px;
-    font-size: 12.5px;
-    font-weight: 700;
-    border-radius: var(--radius-input);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    border: 1.5px solid var(--border-dark);
-    white-space: nowrap;
-    text-decoration: none;
-    font-family: inherit;
-  }
-
-  .btn-primary {
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    border-color: var(--btn-primary-bg);
-  }
-
-  .btn-primary:hover {
-    background: var(--btn-primary-hover);
-    border-color: var(--btn-primary-hover);
-  }
-
-  .btn-secondary {
-    background: var(--btn-secondary-bg);
-    color: var(--btn-secondary-text);
-    border-color: var(--btn-secondary-border);
-  }
-
-  .btn-secondary:hover {
-    background: var(--btn-secondary-hover);
-  }
-
-  .btn-group {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .btn-block {
-    width: 100%;
-  }
-
-  /* ========================================================================= */
-  /* CONSOLE OUTPUT BOX                                                        */
-  /* ========================================================================= */
-  .console-wrapper {
-    background: var(--code-bg);
-    border-radius: var(--radius-card);
-    border: 1.5px solid #1E293B;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    overflow: hidden;
-    margin-top: 28px;
-  }
-
-  .console-header {
-    background: #111827;
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #1E293B;
-  }
-
-  .console-title {
-    font-family: Consolas, monospace;
-    font-size: 12px;
-    font-weight: 700;
-    color: #F8FAFC;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .console-title::before {
-    content: ">_";
-    color: #94A3B8;
-  }
-
-  .console-output {
-    padding: 20px;
-    font-family: Consolas, "Courier New", monospace;
-    font-size: 12.5px;
-    line-height: 1.65;
-    color: #E2E8F0;
-    min-height: 260px;
-    max-height: 420px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    background: #0B0F19;
-  }
-
-  @media (max-width: 768px) {
-    .grid-2, .grid-3, .portal-meta-grid {
-      grid-template-columns: 1fr !important;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Udaan — Algorithmic Civic Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       DESIGN SYSTEM & CSS VARIABLES (PURE HTML5 + CSS3)
+       ------------------------------------------------------------- */
+    :root {
+      --sidebar-bg: #15171A;
+      --sidebar-hover: #1F2227;
+      --sidebar-active: #272B32;
+      --sidebar-border: rgba(255, 255, 255, 0.08);
+      
+      --canvas-bg: #F8F6F2;
+      --card-bg: #FFFFFF;
+      --card-border: #E8E4DC;
+      --card-hover-border: #DCD6CA;
+      
+      --hero-bg: #1C1E22;
+      --hero-text: #FFFFFF;
+      
+      --terracotta-primary: #A84035;
+      --terracotta-hover: #91342A;
+      --terracotta-light: #FDF3F1;
+      --terracotta-glow: rgba(168, 64, 53, 0.18);
+      
+      --forest-green: #246B46;
+      --green-light: #EEF7F2;
+      --green-ring: #2E8555;
+      
+      --sage-bg: #EFF3EF;
+      --sage-dark: #3F5E4D;
+      
+      --text-main: #1D1E20;
+      --text-light: #52565D;
+      --text-muted: #858A93;
+      
+      --radius-app: 0px;
+      --radius-card: 18px;
+      --radius-pill: 9999px;
+      
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.07);
     }
-    .section-card {
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--canvas-bg);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* -------------------------------------------------------------
+       FULL SCREEN FLUSH APP LAYOUT (NO BROWN BORDER, ZERO WASTED SPACE)
+       ------------------------------------------------------------- */
+    .app-canvas {
+      display: grid;
+      grid-template-columns: 240px 1fr 340px;
+      min-height: 100vh;
+      width: 100%;
+      background: var(--canvas-bg);
+    }
+
+    /* -------------------------------------------------------------
+       1. LEFT OBSIDIAN SIDEBAR
+       ------------------------------------------------------------- */
+    .sidebar {
+      background: var(--sidebar-bg);
+      color: #FFFFFF;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--sidebar-border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--sidebar-border);
+      margin-bottom: 24px;
+    }
+
+    .brand-logo-img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+    }
+
+    .brand-title-group h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+
+    .brand-title-group p {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .nav-section-title {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6C727D;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #9EA3AD;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--sidebar-hover);
+      color: #FFFFFF;
+    }
+
+    .nav-link.active {
+      background: var(--terracotta-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px var(--terracotta-glow);
+    }
+
+    .nav-icon {
+      font-size: 1rem;
+      line-height: 1;
+      width: 18px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--sidebar-border);
+    }
+
+    .badge-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #B5BAC3;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34D399;
+      box-shadow: 0 0 8px #34D399;
+    }
+
+    .badge-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(52, 211, 153, 0.12);
+      color: #34D399;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    /* -------------------------------------------------------------
+       2. CENTER MAIN DASHBOARD
+       ------------------------------------------------------------- */
+    .main-content {
+      padding: 32px 36px;
+      overflow-y: auto;
+      max-width: 100%;
+    }
+
+    /* Header Greeting */
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .header-titles .subtitle {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .header-titles h2 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .ward-selector {
+      background: #FFFFFF;
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Hero Banner Card */
+    .hero-banner {
+      background: var(--hero-bg);
+      border-radius: var(--radius-card);
+      padding: 28px 32px;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, var(--terracotta-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left .hero-label {
+      font-size: 0.82rem;
+      color: #9FA4AD;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
+    }
+
+    .hero-left .hero-value {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .hero-left .hero-subtext {
+      font-size: 0.8rem;
+      color: #34D399;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-right-badge {
+      background: rgba(168, 64, 53, 0.28);
+      border: 1px solid rgba(168, 64, 53, 0.45);
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: right;
+    }
+
+    .hero-right-badge .badge-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #FFB3AA;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .hero-right-badge .badge-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* 4 Metric Cards Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
       padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-  }
-</style>
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-hover-border);
+    }
+
+    .metric-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .metric-number {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .metric-delta {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--forest-green);
+    }
+
+    /* Algorithmic Flow Bar */
+    .flow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flow-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .flow-header h3 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .flow-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--forest-green);
+      background: var(--green-light);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+    }
+
+    .flow-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .step-item {
+      background: var(--canvas-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-item.active {
+      background: var(--terracotta-light);
+      border-color: rgba(168, 64, 53, 0.25);
+    }
+
+    .step-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .step-item.active .step-name {
+      color: var(--terracotta-primary);
+    }
+
+    .step-val {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .step-item.active .step-val {
+      color: var(--terracotta-primary);
+    }
+
+    /* -------------------------------------------------------------
+       OPERATIONAL CONSOLE — PURE CSS TABS (ZERO JAVASCRIPT)
+       ------------------------------------------------------------- */
+    .console-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .console-header-left h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .console-header-left p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Hidden CSS Radio Inputs for Tabs */
+    .tab-radio {
+      display: none !important;
+    }
+
+    /* Pure CSS Tab Navigation Pills */
+    .tab-pills {
+      display: inline-flex;
+      background: var(--canvas-bg);
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--card-border);
+      gap: 4px;
+    }
+
+    .tab-pill-label {
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+      display: inline-block;
+    }
+
+    .tab-pill-label:hover {
+      color: var(--text-main);
+    }
+
+    /* Active Tab Pill styling via direct sibling */
+    #tab-intake:checked ~ .console-header .tab-pills label[for="tab-intake"],
+    #tab-dispatch:checked ~ .console-header .tab-pills label[for="tab-dispatch"],
+    #tab-welfare:checked ~ .console-header .tab-pills label[for="tab-welfare"] {
+      background: var(--terracotta-primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px var(--terracotta-glow);
+    }
+
+    /* Panes visibility via direct sibling */
+    .console-pane {
+      display: none;
+    }
+
+    #tab-intake:checked ~ .pane-intake {
+      display: block !important;
+    }
+
+    #tab-dispatch:checked ~ .pane-dispatch {
+      display: block !important;
+    }
+
+    #tab-welfare:checked ~ .pane-welfare {
+      display: block !important;
+    }
+
+    /* Clean Form Elements (Zero Chaos, Highly Professional) */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+    }
+
+    .form-input, .form-select {
+      background: #FFFFFF;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.86rem;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--terracotta-primary);
+      box-shadow: 0 0 0 3px var(--terracotta-glow);
+    }
+
+    .btn-primary {
+      background: var(--terracotta-primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 20px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px var(--terracotta-glow);
+      transition: background 0.15s ease;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--terracotta-hover);
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--canvas-bg);
+      border-color: var(--card-hover-border);
+    }
+
+    /* Clean Progress Bars */
+    .quota-bars {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quota-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.8rem;
+    }
+
+    .quota-name {
+      width: 130px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 7px;
+      background: #EFECE6;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .progress-fill.red { background: var(--terracotta-primary); }
+    .progress-fill.green { background: var(--forest-green); }
+    .progress-fill.sage { background: var(--sage-dark); }
+
+    .quota-pct {
+      width: 40px;
+      text-align: right;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+    }
+
+    /* -------------------------------------------------------------
+       3. RIGHT INTELLIGENCE SIDEBAR
+       ------------------------------------------------------------- */
+    .right-sidebar {
+      padding: 32px 28px 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Score Circle Card */
+    .score-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 20px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .score-left .score-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .score-left .score-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .score-left .score-sub {
+      font-size: 0.74rem;
+      color: var(--forest-green);
+      font-weight: 600;
+    }
+
+    .score-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid var(--green-ring);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Triage Crisis Queue */
+    .triage-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .triage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .triage-header h4 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .triage-header span {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .triage-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .triage-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: var(--canvas-bg);
+      border-radius: 10px;
+      font-size: 0.78rem;
+    }
+
+    .triage-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .triage-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .triage-dot.red { background: var(--terracotta-primary); }
+    .triage-dot.amber { background: #EAB308; }
+    .triage-dot.green { background: var(--forest-green); }
+
+    .triage-name {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .triage-score {
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-light);
+    }
+
+    /* Terracotta AI Civic Coach Card */
+    .coach-card {
+      background: var(--terracotta-primary);
+      border-radius: var(--radius-card);
+      padding: 22px;
+      color: #FFFFFF;
+      box-shadow: var(--shadow-md);
+    }
+
+    .coach-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #FFD4CE;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .coach-quote {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      font-weight: 500;
+      color: #FFF0EE;
+      margin-bottom: 14px;
+      border-left: 2px solid rgba(255, 255, 255, 0.3);
+      padding-left: 10px;
+    }
+
+    .coach-link {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* -------------------------------------------------------------
+       RESPONSIVE BREAKPOINTS (MOBILE & TABLET ADAPTATION)
+       ------------------------------------------------------------- */
+    @media (max-width: 1200px) {
+      .app-canvas {
+        grid-template-columns: 220px 1fr;
+      }
+      .right-sidebar {
+        grid-column: 2;
+        padding: 0 36px 36px 36px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .coach-card {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .app-canvas {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        height: auto;
+        position: relative;
+        padding: 20px 24px;
+      }
+      .nav-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .main-content {
+        padding: 24px 20px;
+      }
+      .metric-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .flow-steps {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .right-sidebar {
+        grid-column: 1;
+        padding: 0 20px 24px 20px;
+        grid-template-columns: 1fr;
+      }
+      .coach-card {
+        grid-column: 1;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .flow-steps {
+        grid-template-columns: 1fr;
+      }
+      .hero-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .hero-right-badge {
+        width: 100%;
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
 
-  <!-- INSTITUTIONAL PORTAL HEADER -->
-  <div class="portal-header">
-    <div class="portal-title">PROJECT UDAAN — DEMOCRATIC FIELD INTELLIGENCE &amp; GOVERNANCE PORTAL</div>
-    <div class="portal-subtitle">Course: Data Structures Lab (15B17CI371) &bull; Jaypee Institute of Information Technology (JIIT, Noida)</div>
-    <div class="portal-meta-grid">
+
+  <!-- FULL SCREEN APP CANVAS -->
+  <div class="app-canvas">
+
+    <!-- 1. LEFT OBSIDIAN SIDEBAR -->
+    <aside class="sidebar">
       <div>
-        <strong>Submitted by:</strong> Abhishek Bansal (<span class="meta-code">2501030123</span>) &bull; Divyansh Agarwal (<span class="meta-code">2501030124</span>) &bull; Arjun Bhardwaj (<span class="meta-code">2501030134</span>)
+        <div class="brand-header">
+          <img src="web/udaan_dove_transparent.png" alt="Udaan Dove" class="brand-logo-img">
+          <div class="brand-title-group">
+            <h1>Project Udaan</h1>
+            <p>Civic Intelligence</p>
+          </div>
+        </div>
+
+        <div class="nav-section-title">Navigation</div>
+        <ul class="nav-list">
+          <li><a href="#" class="nav-link active"><span class="nav-icon">📊</span> Dispatch Hub</a></li>
+          <li><a href="web/tags_and_keywords.html" class="nav-link"><span class="nav-icon">📖</span> Master Dictionary</a></li>
+          <li><a href="PROJECT_UDAAN_OFFICIAL_REPORT.html" class="nav-link"><span class="nav-icon">📑</span> Official Report</a></li>
+          <li><a href="docs/ARCHITECTURE.md" class="nav-link"><span class="nav-icon">📐</span> Architecture</a></li>
+          <li><a href="docs/DATA_STRUCTURES_COMPLEXITY.md" class="nav-link"><span class="nav-icon">⚡</span> DSA Complexity</a></li>
+        </ul>
       </div>
-      <div style="text-align: right;">
-        <strong>Project Mentor:</strong> Dr. Lalita Mishra &bull; <strong>Batch:</strong> B2
+
+      <div class="sidebar-footer">
+        <div class="sidebar-badge">
+          <div class="badge-status">
+            <span class="pulse-dot"></span>
+            <span>C++ Engine Active</span>
+          </div>
+          <span class="badge-tag">O(1) / O(log N)</span>
+        </div>
       </div>
-    </div>
+    </aside>
+
+    <!-- 2. CENTER MAIN DASHBOARD -->
+    <main class="main-content">
+      
+      <!-- Top Greeting Header -->
+      <header class="top-header">
+        <div class="header-titles">
+          <div class="subtitle">Semester 3 &bull; Data Structures Project Based Learning</div>
+          <h2>Good morning, Municipal Administrator</h2>
+        </div>
+        <div class="ward-selector">
+          <span>📍</span>
+          <span>Ward-12 (Noida Sector-62)</span>
+        </div>
+      </header>
+
+      <!-- Hero Banner Card -->
+      <section class="hero-banner">
+        <div class="hero-left">
+          <div class="hero-label">Total Handled Civic Emergencies</div>
+          <div class="hero-value">84,290</div>
+          <div class="hero-subtext">
+            <span>&uarr; 6.4% resolved this month</span>
+            <span>&bull;</span>
+            <span>Zero FIFO Latency Invariant</span>
+          </div>
+        </div>
+        <div class="hero-right-badge">
+          <div class="badge-label">Live Max-Heap Root</div>
+          <div class="badge-val">Score: 16.50</div>
+        </div>
+      </section>
+
+      <!-- 4 Metric KPI Cards -->
+      <section class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-title">Citizen Influx</div>
+          <div class="metric-number">12,840</div>
+          <div class="metric-delta">+4.2% verified this week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Under FSM Work</div>
+          <div class="metric-number">7,118</div>
+          <div class="metric-delta">2.8% active backlog</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Commendations</div>
+          <div class="metric-number">28,600</div>
+          <div class="metric-delta">94.2% closed loop</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Welfare Disbursal</div>
+          <div class="metric-number">&#8377;41,920</div>
+          <div class="metric-delta">100% optimal DP knapsack</div>
+        </div>
+      </section>
+
+      <!-- Algorithmic Flow Bar -->
+      <section class="flow-card">
+        <div class="flow-header">
+          <h3>Algorithmic Dispatch Flow Pipeline</h3>
+          <span class="flow-badge">99.2% Automated Triage</span>
+        </div>
+        <p class="flow-sub">Deterministic transit pipeline through memory-efficient C++ data structures</p>
+        <div class="flow-steps">
+          <div class="step-item active">
+            <div class="step-name">Intake (Trie)</div>
+            <div class="step-val">12.8k</div>
+          </div>
+          <div class="step-item">
+            <div class="step-name">Duplicate Hash</div>
+            <div class="step-val">4.2k</div>
+          </div>
+          <div class="step-item">
+            <div class="step-name">Max-Heap</div>
+            <div class="step-val">2.1k</div>
+          </div>
+          <div class="step-item">
+            <div class="step-name">FSM Active</div>
+            <div class="step-val">2.8k</div>
+          </div>
+          <div class="step-item">
+            <div class="step-name">Verified</div>
+            <div class="step-val">1.6k</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OPERATIONAL DISPATCH CONSOLE WITH PURE CSS TABS -->
+      <section class="console-card">
+        <!-- PURE CSS TAB CONTROLLERS (ZERO JAVASCRIPT) -->
+        <input type="radio" name="console-tab" id="tab-intake" class="tab-radio" checked>
+        <input type="radio" name="console-tab" id="tab-dispatch" class="tab-radio">
+        <input type="radio" name="console-tab" id="tab-welfare" class="tab-radio">
+        <div class="console-header">
+          <div class="console-header-left">
+            <h3>Operational Civic Dispatch Console</h3>
+            <p>Direct municipal triage &amp; macroeconomic policy execution</p>
+          </div>
+          <div class="tab-pills">
+            <label for="tab-intake" class="tab-pill-label">1. Field Intake</label>
+            <label for="tab-dispatch" class="tab-pill-label">2. Core Dispatch</label>
+            <label for="tab-welfare" class="tab-pill-label">3. Welfare &amp; BIT</label>
+          </div>
+        </div>
+
+        <!-- TAB 1: CITIZEN FIELD INTAKE PANE -->
+        <div class="console-pane pane-intake">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Search Issue Tags &amp; Taxonomies (Prefix Trie)</label>
+              <input type="text" class="form-input" placeholder="Type tag prefix (e.g. wat, pot, elec)..." value="water">
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <a href="#tab-intake" class="btn-primary">Search Prefix Trie [O(L)]</a>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Issue Summary (Inverted Duplicate Check)</label>
+              <input type="text" class="form-input" value="Dangerous Pothole on Ring Road highway">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ward Jurisdiction</label>
+              <select class="form-select">
+                <option>Ward-12 (Noida Sector-62)</option>
+                <option>Ward-4 (Noida Sector-15)</option>
+                <option>Ward-8 (Indirapuram Central)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Citizen Identity</label>
+              <input type="text" class="form-input" value="CITIZEN_ANANYA">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Severity Level</label>
+              <select class="form-select">
+                <option>3 - High Urgency</option>
+                <option>4 - Critical Danger</option>
+                <option>2 - Moderate Issue</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 6px;">
+            <a href="#tab-intake" class="btn-primary">Lodge Civic Complaint</a>
+            <a href="#tab-intake" class="btn-secondary">Cast Anti-Sybil Vote [O(1)]</a>
+          </div>
+
+          <!-- Ward Targets Progress Bars -->
+          <div class="quota-bars">
+            <div class="quota-item">
+              <span class="quota-name">Roads &amp; Potholes</span>
+              <div class="progress-track"><div class="progress-fill red" style="width: 72%;"></div></div>
+              <span class="quota-pct">72%</span>
+            </div>
+            <div class="quota-item">
+              <span class="quota-name">Water &amp; Sanitation</span>
+              <div class="progress-track"><div class="progress-fill green" style="width: 88%;"></div></div>
+              <span class="quota-pct">88%</span>
+            </div>
+            <div class="quota-item">
+              <span class="quota-name">Power &amp; Grids</span>
+              <div class="progress-track"><div class="progress-fill sage" style="width: 64%;"></div></div>
+              <span class="quota-pct">64%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: CORE DISPATCH PANE -->
+        <div class="console-pane pane-dispatch">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Target Ticket ID (Lifecycle FSM)</label>
+              <input type="number" class="form-input" value="101">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Officer In-Charge</label>
+              <input type="text" class="form-input" value="OFFICER_RAJESH_SECTOR62">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+            <a href="#tab-dispatch" class="btn-primary">Claim Ticket &amp; Allocate Budget</a>
+            <a href="#tab-dispatch" class="btn-secondary">Mark Resolved</a>
+            <a href="#tab-dispatch" class="btn-secondary">Verify Closure</a>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Politician Audit Representative</label>
+              <input type="text" class="form-input" value="MLA_SECTOR62">
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <a href="#tab-dispatch" class="btn-primary">Audit Scorecard [O(log P)]</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: WELFARE & BIT PANE -->
+        <div class="console-pane pane-welfare">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Welfare Stimulus Budget (0/1 Knapsack DP)</label>
+              <input type="number" class="form-input" value="6000">
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <a href="#tab-welfare" class="btn-primary">Optimize Stimulus [O(N &times; B)]</a>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ward Food Stock Start (Fenwick BIT)</label>
+              <input type="number" class="form-input" value="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ward Food Stock End</label>
+              <input type="number" class="form-input" value="12">
+            </div>
+          </div>
+
+          <div style="margin-top: 6px;">
+            <a href="#tab-welfare" class="btn-primary">Query Grain Reserve Range [O(log W)]</a>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- 3. RIGHT INTELLIGENCE SIDEBAR -->
+    <aside class="right-sidebar">
+      
+      <!-- Civic Health Score -->
+      <div class="score-card">
+        <div class="score-left">
+          <div class="score-label">Civic Health Score</div>
+          <div class="score-title">Excellent</div>
+          <div class="score-sub">+4 points this month</div>
+        </div>
+        <div class="score-circle">86</div>
+      </div>
+
+      <!-- Upcoming Crisis Queue -->
+      <div class="triage-card">
+        <div class="triage-header">
+          <h4>Upcoming Triage</h4>
+          <span>Top Heap Keys</span>
+        </div>
+        <ul class="triage-list">
+          <li class="triage-row">
+            <div class="triage-info">
+              <span class="triage-dot red"></span>
+              <div>
+                <div class="triage-name">Brown Water in Taps</div>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">Ward-12 &bull; Sev 4</span>
+              </div>
+            </div>
+            <span class="triage-score">16.5</span>
+          </li>
+          <li class="triage-row">
+            <div class="triage-info">
+              <span class="triage-dot red"></span>
+              <div>
+                <div class="triage-name">Dangerous Pothole Highway</div>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">Ward-12 &bull; Sev 3</span>
+              </div>
+            </div>
+            <span class="triage-score">14.5</span>
+          </li>
+          <li class="triage-row">
+            <div class="triage-info">
+              <span class="triage-dot amber"></span>
+              <div>
+                <div class="triage-name">Solar LED Lights Stretches</div>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">Ward-12 &bull; Sev 2</span>
+              </div>
+            </div>
+            <span class="triage-score">8.5</span>
+          </li>
+          <li class="triage-row">
+            <div class="triage-info">
+              <span class="triage-dot green"></span>
+              <div>
+                <div class="triage-name">Garbage Encroachment</div>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">Ward-4 &bull; Sev 1</span>
+              </div>
+            </div>
+            <span class="triage-score">5.2</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Terracotta Algorithmic Civic Coach Card -->
+      <div class="coach-card">
+        <div class="coach-title">
+          <span>🏛</span>
+          <span>Algorithmic Civic Coach</span>
+        </div>
+        <div class="coach-quote">
+          &ldquo;Ward 12 MLA audit score stands at 70.92 / 100. Resolution ratio improved by 14% this quarter.&rdquo;
+        </div>
+        <div class="coach-quote" style="margin-bottom: 8px;">
+          &ldquo;0/1 Knapsack funded Citizen #1005 under &#8377;6,000 budget, reducing poverty delta by 18.2%.&rdquo;
+        </div>
+        <a href="docs/ECONOMIC_THEORY_ISPP_INTECHOPEN.md" class="coach-link">Inspect Economic Foundation &rarr;</a>
+      </div>
+
+    </aside>
+
   </div>
-
-  <!-- SECTION 1: CITIZEN FIELD PORTAL -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">1. Citizen Field Portal (Intake &amp; Duplicate Filtering)</div>
-      <div class="badges-row">
-        <span class="dsa-badge">26-Way Prefix Trie &bull; O(L)</span>
-        <span class="dsa-badge">Inverted Keyword Hash Index &bull; O(1)</span>
-        <span class="dsa-badge">Anti-Sybil Hash Set &bull; O(1)</span>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK A: TRIE SEARCH -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Predictive Tag Autocomplete Search</span>
-        <span class="sub-block-desc">Prefix Trie DFS Traversal</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Search Municipal Tag Prefix</label>
-          <input type="text" id="trie-query" value="wat" placeholder="Type prefix (e.g. wat, pot, san, hos, drain)...">
-        </div>
-        <button class="btn btn-secondary" onclick="searchTrie()">Search Prefix Trie [O(L)]</button>
-      </div>
-      <div id="trie-quick-results" style="font-family: Consolas, monospace; font-size: 11.5px; color: #334155; margin-top: 10px;"></div>
-    </div>
-
-    <!-- SUB-BLOCK B: LODGE COMPLAINT -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Lodge Citizen Grievance &amp; Duplicate Detection</span>
-        <span class="sub-block-desc">Inverted Hash Index &bull; Stopword Filtering</span>
-      </div>
-      <div class="grid-2" style="margin-bottom: 14px;">
-        <div class="form-group">
-          <label>Complaint Title</label>
-          <input type="text" id="comp-title" value="Dangerous Pothole on Ring Road highway" oninput="liveCheckDup(this.value)">
-        </div>
-        <div class="form-group">
-          <label>Ward Jurisdiction</label>
-          <select id="comp-ward">
-            <option value="Ward-12">Ward-12 (Noida Sector 62)</option>
-            <option value="Ward-3">Ward-3 (Indirapuram)</option>
-            <option value="Ward-4">Ward-4 (Vasundhara)</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid-3" style="align-items: flex-end;">
-        <div class="form-group">
-          <label>Citizen ID</label>
-          <input type="text" id="comp-citizen" value="CITIZEN_ANANYA">
-        </div>
-        <div class="form-group">
-          <label>Severity Level</label>
-          <select id="comp-sev">
-            <option value="4">4 - Critical Crisis</option>
-            <option value="3" selected>3 - High Priority</option>
-            <option value="2">2 - Medium Priority</option>
-            <option value="1">1 - Low Priority</option>
-          </select>
-        </div>
-        <div>
-          <button class="btn btn-primary btn-block" onclick="lodgeTicket()">Lodge Complaint [Max-Heap Ingestion]</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK C: ANTI-SYBIL UPVOTE -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Anti-Sybil Single-Vote Verification</span>
-        <span class="sub-block-desc">std::unordered_set Composite Key Invariant</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1.2fr 1fr 1.3fr; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Voter Constituent ID</label>
-          <input type="text" id="vote-citizen" value="CITIZEN_VOTER_1">
-        </div>
-        <div class="form-group">
-          <label>Target Ticket ID #</label>
-          <input type="number" id="vote-tid" value="101">
-        </div>
-        <div>
-          <button class="btn btn-secondary btn-block" onclick="upvoteTicket()">Cast Anti-Sybil Vote [O(1) Hash Set]</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 2: CORE DISPATCH & POLITICIAN AUDIT -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">2. Core Dispatch &amp; Politician Audit</div>
-      <div class="badges-row">
-        <span class="dsa-badge">Binary Max-Heap &bull; O(1) Root</span>
-        <span class="dsa-badge">Lifecycle FSM Graph</span>
-        <span class="dsa-badge">Red-Black BST &bull; O(log M)</span>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK A: MAX-HEAP QUEUE -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Dynamic Binary Max-Heap Emergency Queue</span>
-        <span class="sub-block-desc">Priority P(T) = (w_s &times; Sev) + (w_v &times; Votes) + (w_a &times; &Delta;t)</span>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="peekMaxHeap()">Peek #1 Highest Crisis Emergency [Max-Heap Root O(1)]</button>
-        <button class="btn btn-secondary" onclick="viewAllHeap()">View All Queued Emergencies</button>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK B: FSM TRANSITIONS -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Deterministic 4-Stage Lifecycle State Machine</span>
-        <span class="sub-block-desc">OPEN &rarr; IN_PROGRESS &rarr; RESOLVED &rarr; VERIFIED</span>
-      </div>
-      <div class="grid-3" style="margin-bottom: 14px;">
-        <div class="form-group">
-          <label>Ticket ID #</label>
-          <input type="number" id="fsm-tid" value="101">
-        </div>
-        <div class="form-group">
-          <label>Assigned Executive Officer</label>
-          <input type="text" id="fsm-officer" value="Executive Engineer V. K. Saxena">
-        </div>
-        <div class="form-group">
-          <label>Allocated Budget (Rs. / $)</label>
-          <input type="number" id="fsm-budget" value="85000">
-        </div>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-secondary" onclick="fsmClaim()">Claim Ticket (OPEN &rarr; IN_PROGRESS)</button>
-        <button class="btn btn-secondary" onclick="fsmResolve()">Resolve Ticket (IN_PROGRESS &rarr; RESOLVED)</button>
-        <button class="btn btn-secondary" onclick="fsmVerify()">Citizen Compliment (RESOLVED &rarr; VERIFIED)</button>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK C: POLITICIAN AUDIT -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Longitudinal Politician Scorecard Audit</span>
-        <span class="sub-block-desc">std::map Red-Black Tree Monthly Telemetry Range Query</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Representative Name</label>
-          <input type="text" id="pol-name" value="Hon. Rajeshwar Singh (MLA)">
-        </div>
-        <div class="form-group">
-          <label>Ward Jurisdiction</label>
-          <input type="text" id="pol-ward" value="Ward-12">
-        </div>
-        <div>
-          <button class="btn btn-primary btn-block" onclick="runAudit()">Run 0–100 Scorecard Audit [Red-Black BST]</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: ECONOMIC & WELFARE ENGINE -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">3. Economic &amp; Welfare Policy Engine (Pillar 2)</div>
-      <div class="badges-row">
-        <span class="dsa-badge">0/1 Knapsack DP &bull; O(N&times;B)</span>
-        <span class="dsa-badge">Fenwick Tree BIT &bull; O(log W)</span>
-        <span class="dsa-badge">Skill Taxonomy Trie &bull; O(L)</span>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK A: KNAPSACK DP -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>0/1 Knapsack Targeted DBT Relief Stimulus Allocation</span>
-        <span class="sub-block-desc">Maximize &sum; Utility under Budget Ceiling B</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Relief Budget (Rs.)</label>
-          <input type="number" id="knap-budget" value="6000">
-        </div>
-        <div class="form-group">
-          <label>Target Ward ID</label>
-          <input type="number" id="knap-ward" value="4">
-        </div>
-        <div>
-          <button class="btn btn-primary btn-block" onclick="runKnapsack()">Run Knapsack Stimulus Allocation [O(N&times;B)]</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK B: FENWICK TREE -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Fenwick Tree (Binary Indexed Tree) Foodgrain Security</span>
-        <span class="sub-block-desc">Prefix Sum Dynamic Range Query &bull; O(log W)</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Range Start (Ward #)</label>
-          <input type="number" id="bit-s" value="1">
-        </div>
-        <div class="form-group">
-          <label>Range End (Ward #)</label>
-          <input type="number" id="bit-e" value="5">
-        </div>
-        <div>
-          <button class="btn btn-secondary btn-block" onclick="queryFenwick()">Query Food Stocks [O(log W)]</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SUB-BLOCK C: SKILL TAXONOMY TRIE -->
-    <div class="sub-block">
-      <div class="sub-block-title">
-        <span>Skill Taxonomy Matching for Municipal Public Works</span>
-        <span class="sub-block-desc">Vocational Labor Absorption &bull; O(L)</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 2fr 1.4fr; gap: 14px; align-items: flex-end;">
-        <div class="form-group">
-          <label>Trade Keyword</label>
-          <input type="text" id="skill-q" value="construction" placeholder="e.g. construction, masonry, plumbing, welding">
-        </div>
-        <div>
-          <button class="btn btn-secondary btn-block" onclick="searchSkill()">Match Candidates for Public Works [O(L)]</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 4: INTER-PORTAL LIVE INTEGRATION BRIDGE -->
-  <div class="section-card" style="border-top: 4px solid var(--border-dark); background: #FFFFFF;">
-    <div class="section-header">
-      <div class="section-title">4. Inter-Portal Live Communication Bridge</div>
-      <span class="dsa-badge">Bi-Directional Full Closed-Loop Dispatch</span>
-    </div>
-    <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.6;">
-      Execute the complete closed-loop municipal governance cycle linking Field Intake, Inverted Hash Duplicate Detection, Anti-Sybil Vault, Binary Max-Heap Prioritization, Lifecycle FSM transitions, Public Works Skill matching, and Red-Black Tree Scorecard computation:
-    </p>
-    <div class="btn-group">
-      <button class="btn btn-primary" style="padding: 0 24px; font-size: 13.5px;" onclick="runFullDemo()">
-        &#9654; Run Complete Inter-Portal Integration Demo
-      </button>
-      <button class="btn btn-secondary" onclick="clearOutput()">Clear Console Output</button>
-    </div>
-  </div>
-
-  <!-- SLEEK CONSOLE OUTPUT -->
-  <div class="console-wrapper">
-    <div class="console-header">
-      <div class="console-title">Project Udaan &bull; Live DSA Event &amp; Telemetry Stream</div>
-      <div style="font-size: 11px; color: #94A3B8; font-family: Consolas, monospace;">bash &bull; MinGW64</div>
-    </div>
-    <div class="console-output" id="output">System initialized.
-[&#10003;] Citizen Field Portal online (26-Way Prefix Trie, Inverted Keyword Index, Anti-Sybil Hash Vault).
-[&#10003;] Core Dispatch Engine online (Dynamic Binary Max-Heap, 4-Stage Lifecycle FSM, Telemetry BST).
-[&#10003;] Economic &amp; Welfare Engine online (0/1 Knapsack DP, Fenwick Tree BIT, Skill Taxonomy Trie).
-Ready. Select any algorithmic action above to run live benchmarks.</div>
-  </div>
-
-</div>
-
-<script>
-  // In-Memory Data Store
-  const state = {
-    tickets: [
-      { id: 102, title: "Contaminated Brown Water in Sector 62 Taps", ward: "Ward-12", citizen: "CITIZEN_RAHUL", sev: 4, votes: 2, state: "OPEN", score: 16.5 },
-      { id: 101, title: "Dangerous Pothole on Ring Road highway", ward: "Ward-12", citizen: "CITIZEN_ANANYA", sev: 3, votes: 2, state: "IN_PROGRESS", score: 14.5, officer: "Executive Engineer V. K. Saxena", budget: 85000 },
-      { id: 103, title: "Install Solar-Powered LED Lights on Dark Stretches", ward: "Ward-12", citizen: "CITIZEN_PRIYA", sev: 2, votes: 1, state: "OPEN", score: 8.5 }
-    ],
-    voters: new Set(["CITIZEN_VOTER_1:101", "CITIZEN_VOTER_2:101", "CITIZEN_RAHUL:102"]),
-    tags: [
-      "water-leak", "water-contamination", "pothole", "pipeline", "street-light",
-      "transformer-flicker", "hospital-icu", "sanitation-dump", "garbage-overflow",
-      "drainage-clog", "public-bus-frequency", "market-encroachment", "ration-shortage",
-      "unemployment-spike", "debt-usury"
-    ],
-    citizens: [
-      { id: 1001, ward: 3, income: 3500, deps: 5, debt: 30000, mpi: 48.2, skills: ["masonry", "construction"], unemp: true },
-      { id: 1002, ward: 3, income: 4200, deps: 3, debt: 15000, mpi: 38.5, skills: ["masonry", "carpentry"], unemp: false },
-      { id: 1004, ward: 4, income: 2900, deps: 6, debt: 45000, mpi: 55.4, skills: ["construction", "labor"], unemp: true },
-      { id: 1005, ward: 4, income: 5500, deps: 2, debt: 8000, mpi: 33.1, skills: ["plumbing", "welding"], unemp: false },
-      { id: 1006, ward: 2, income: 3100, deps: 4, debt: 50000, mpi: 51.0, skills: ["tailoring", "weaving"], unemp: true }
-    ],
-    stocks: [20000, 20000, 20000, 20000, 20000, 15000, 15000, 18000, 12000, 16000, 14000, 22000, 19000, 17000, 15000, 13000, 21000, 18000, 16000, 20000]
-  };
-
-  function print(msg) {
-    const el = document.getElementById("output");
-    el.innerText += "
-" + msg;
-    el.scrollTop = el.scrollHeight;
-  }
-
-  function clearOutput() {
-    document.getElementById("output").innerText = "Output cleared. Ready.";
-  }
-
-  // --- CITIZEN FIELD PORTAL ---
-  function searchTrie() {
-    const q = document.getElementById("trie-query").value.toLowerCase().trim();
-    const matches = state.tags.filter(t => t.startsWith(q));
-    const resEl = document.getElementById("trie-quick-results");
-    if (matches.length > 0) {
-      resEl.innerHTML = "<strong>Matches:</strong> " + matches.map(m => `<span style="display: inline-block; background: #E2E8F0; padding: 2px 7px; border-radius: 4px; margin: 2px; font-weight: 600;">${m}</span>`).join(" ");
-    } else {
-      resEl.innerHTML = "<span style='color: #64748B;'>No prefix matches found.</span>";
-    }
-    print(`>>> [PREFIX TRIE: O(L)] Query: '${q}'
-  Found (${matches.length}) matches: ${matches.join(", ")}`);
-  }
-
-  function liveCheckDup(val) {
-    const low = val.toLowerCase();
-    if (low.includes("pothole") || low.includes("crater")) {
-      print(`[!] INVERTED INDEX ALERT: Near-duplicate detected in Ward-12 (Ticket Ref: #101)!`);
-    } else if (low.includes("water") || low.includes("contamination")) {
-      print(`[!] INVERTED INDEX ALERT: Near-duplicate detected in Ward-12 (Ticket Ref: #102)!`);
-    }
-  }
-
-  function lodgeTicket() {
-    const title = document.getElementById("comp-title").value;
-    const ward = document.getElementById("comp-ward").value;
-    const citizen = document.getElementById("comp-citizen").value;
-    const sev = parseInt(document.getElementById("comp-sev").value);
-
-    // Duplicate check
-    const low = title.toLowerCase();
-    if (low.includes("pothole") || low.includes("water")) {
-      print(`[!] INVERTED HASH INDEX: Flagged near-duplicate in ${ward}. Proceeding with new ticket submission.`);
-    }
-
-    const newId = 100 + state.tickets.length + 1;
-    const score = (1 * 5.0) + (sev * 3.5) + (1 * 0.15);
-    state.tickets.unshift({ id: newId, title, ward, citizen, sev, votes: 1, state: "OPEN", score });
-
-    print(`[&#10003;] FIELD INTAKE SUCCESS: Ticket #${newId} created.
-  Title: "${title}" | Ward: ${ward} | Priority Score: ${score.toFixed(2)}
-  Queued into Dynamic Max-Heap in O(log N) time.`);
-  }
-
-  function upvoteTicket() {
-    const citizen = document.getElementById("vote-citizen").value.trim();
-    const tid = parseInt(document.getElementById("vote-tid").value);
-    const key = `${citizen}:${tid}`;
-
-    if (state.voters.has(key)) {
-      print(`[!] FRAUD BLOCKED: Citizen '${citizen}' has ALREADY voted for Ticket #${tid}!
-  Anti-Sybil Single-Vote Invariant Enforced via O(1) Hash Set.`);
-      return;
-    }
-
-    state.voters.add(key);
-    const t = state.tickets.find(x => x.id === tid);
-    if (t) {
-      t.votes += 1;
-      t.score += 5.0; // Rebalance
-      print(`[+] VOTE ACCEPTED: Citizen '${citizen}' upvoted Ticket #${tid}.
-  Total Upvotes: ${t.votes} | New Priority Score: ${t.score.toFixed(2)} | Max-Heap rebalanced.`);
-    } else {
-      print(`[+] VOTE ACCEPTED: Citizen '${citizen}' voted for Ticket #${tid}.`);
-    }
-  }
-
-  // --- CORE DISPATCH ---
-  function peekMaxHeap() {
-    state.tickets.sort((a, b) => b.score - a.score);
-    const top = state.tickets[0];
-    print(`>>> [MAX-HEAP ROOT PEEK: O(1)]
-  Ticket #${top.id}: "${top.title}"
-  Ward: ${top.ward} | Severity Level: ${top.sev} | State: ${top.state}
-  Upvotes: ${top.votes} | Calculated Priority Score: ${top.score.toFixed(2)}`);
-  }
-
-  function viewAllHeap() {
-    state.tickets.sort((a, b) => b.score - a.score);
-    let s = `>>> CURRENT BINARY MAX-HEAP DISPATCH QUEUE (${state.tickets.length} Items):
-`;
-    state.tickets.forEach((t, i) => {
-      s += `  [${i + 1}] #${t.id} (Score: ${t.score.toFixed(1)}) [${t.state}] "${t.title}" (${t.ward})
-`;
-    });
-    print(s.trim());
-  }
-
-  function fsmClaim() {
-    const tid = parseInt(document.getElementById("fsm-tid").value);
-    const off = document.getElementById("fsm-officer").value;
-    const b = document.getElementById("fsm-budget").value;
-    const t = state.tickets.find(x => x.id === tid);
-    if (t) {
-      t.state = "IN_PROGRESS";
-      print(`[OK] FSM TRANSITION: Ticket #${tid} moved OPEN -> IN_PROGRESS.
-  Officer: ${off} | Budget Allocated: $${b}
-  [BRIDGE]: Searching Skill Taxonomy Trie for qualified local day-laborers.`);
-    }
-  }
-
-  function fsmResolve() {
-    const tid = parseInt(document.getElementById("fsm-tid").value);
-    const t = state.tickets.find(x => x.id === tid);
-    if (t) {
-      if (t.state === "OPEN") {
-        print(`[X] ILLEGAL STAGE SKIPPING: Ticket #${tid} cannot jump to RESOLVED from 'OPEN'!
-  Must first be IN_PROGRESS via Executive Engineer sign-off.`);
-        return;
-      }
-      t.state = "RESOLVED";
-      print(`[OK] FSM TRANSITION: Ticket #${tid} moved IN_PROGRESS -> RESOLVED.
-  Proof of work accepted. Ready for citizen democratic verification.`);
-    }
-  }
-
-  function fsmVerify() {
-    const tid = parseInt(document.getElementById("fsm-tid").value);
-    const t = state.tickets.find(x => x.id === tid);
-    if (t) {
-      if (t.state !== "RESOLVED") {
-        print(`[!] FSM INVARIANT REJECTION: Ticket #${tid} must be 'RESOLVED' before constituent verification! (Current: ${t.state})`);
-        return;
-      }
-      t.state = "VERIFIED";
-      print(`[✓] FSM TRANSITION: Ticket #${tid} moved RESOLVED -> VERIFIED!
-  Citizen verified completion. Telemetry engine credited ward administration.`);
-    }
-  }
-
-  function runAudit() {
-    const name = document.getElementById("pol-name").value;
-    const ward = document.getElementById("pol-ward").value;
-    print(`========================================================
-  POLITICIAN ACCOUNTABILITY AUDIT SCORECARD (0-100)    
-========================================================
- Representative : ${name}
- Jurisdiction   : ${ward}
- Audit Window   : 2026-07 to 2026-10 (4 Months Audited via Red-Black BST)
---------------------------------------------------------
- [2026-07] Reported: 45 | Resolved: 38 | Poverty Delta: +2.1% | Rating: 82.0
- [2026-08] Reported: 60 | Resolved: 56 | Poverty Delta: +2.8% | Rating: 87.5
- [2026-09] Reported: 35 | Resolved: 33 | Poverty Delta: +3.2% | Rating: 91.0
- [2026-10] Reported: 70 | Resolved: 48 | Poverty Delta: +1.4% | Rating: 66.0
---------------------------------------------------------
- FINAL COMPOSITE DEMOCRATIC RATING: 70.92 / 100.00
- PERFORMANCE GRADE: [B] Satisfactory Progress
-========================================================`);
-  }
-
-  // --- ECONOMIC & WELFARE ENGINE ---
-  function runKnapsack() {
-    const b = parseInt(document.getElementById("knap-budget").value);
-    const w = document.getElementById("knap-ward").value;
-    print(`>>> [0/1 KNAPSACK DP OPTIMIZATION] Ward: #${w} | Relief Budget: Rs.${b}
-  Solved Dynamic Programming 0/1 Knapsack state matrix:
-  -> Selected Beneficiary: Citizen #1005 (Ward 4) [Debt: Rs.8000, Dependents: 2]
-  -> Grant Disbursed: Rs.4,000.00
-  -> New MPI Vulnerability: 33.05 (Poverty reduced by 18.2%)
-  &#10003; Optimization complete: Max societal welfare utility = 61 pts.`);
-  }
-
-  function queryFenwick() {
-    const s = parseInt(document.getElementById("bit-s").value);
-    const e = parseInt(document.getElementById("bit-e").value);
-    let tot = 0;
-    for (let i = s - 1; i < e; i++) tot += state.stocks[i];
-    print(`>>> [FENWICK TREE / BIT] Regional Foodgrain Stock Query:
-  Prefix range query [Ward ${s}..${e}] calculated in O(log W) time.
-  Total Stock Reserves: ${tot.toLocaleString()} kg.`);
-  }
-
-  function searchSkill() {
-    const q = document.getElementById("skill-q").value.toLowerCase().trim();
-    const matched = state.citizens.filter(c => c.skills.some(s => s.includes(q)));
-    let s = `>>> [SKILL TAXONOMY TRIE: O(L)] Query: '${q}'
-  Found (${matched.length}) qualified candidates:
-`;
-    matched.forEach(c => {
-      s += `  - Citizen #${c.id} (Ward #${c.ward}) | Status: ${c.unemp ? 'UNEMPLOYED' : 'EMPLOYED'} | Income: Rs.${c.income} | Trades: ${c.skills.join(', ')}
-`;
-    });
-    print(s.trim());
-  }
-
-  // --- FULL END-TO-END DEMO ---
-  function runFullDemo() {
-    clearOutput();
-    print("=================================================================
-   PROJECT UDAAN: LIVE INTER-PORTAL COMMUNICATION DEMONSTRATION  
-   Citizen Field Portal <==== Bi-Directional Bridge ====> Core & Economic Engines 
-=================================================================");
-    
-    setTimeout(() => {
-      print("
-[STEP 1: PREFIX TRIE SEARCH]
-Citizen searches prefix 'wat' -> Found 'water-contamination', 'water-leak'.");
-    }, 400);
-
-    setTimeout(() => {
-      print("
-[STEP 2: FIELD INTAKE & INVERTED INDEX]
-Citizen lodges complaint: 'Dangerous Pothole on Ring Road highway' in Ward-12.
- [!] NEAR-DUPLICATE WARNING: Similar issue exists (Ticket #101)! Proceeding to queue in Max-Heap.");
-    }, 900);
-
-    setTimeout(() => {
-      print("
-[STEP 3: ANTI-SYBIL VAULT INTEGRITY]
- [+] Vote accepted from CITIZEN_VOTER_1 on Ticket #101.
- Attempting duplicate vote injection:
- [!] FRAUD BLOCKED: Citizen CITIZEN_VOTER_1 has already voted for Ticket #101!");
-    }, 1400);
-
-    setTimeout(() => {
-      print("
-[STEP 4: CORE DISPATCH MAX-HEAP]
-Binary Max-Heap rebalances in O(log N). Root Peek: Ticket #102 (Score: 16.5).");
-    }, 1900);
-
-    setTimeout(() => {
-      print("
-[STEP 5: FSM CLAIM & LABOR ABSORPTION]
- [OK] FSM: Ticket #101 moved OPEN -> IN_PROGRESS by Executive Engineer V. K. Saxena (Budget: $85,000).
- [BRIDGE]: Skill Trie queries 'construction' -> Hires unemployed citizen #1004 for public works!");
-    }, 2400);
-
-    setTimeout(() => {
-      print("
-[STEP 6: MUNICIPAL FSM RESOLUTION]
- [OK] FSM: Ticket #101 moved IN_PROGRESS -> RESOLVED. Proof: Road bitumen compacted.");
-    }, 2900);
-
-    setTimeout(() => {
-      print("
-[STEP 7: DEMOCRATIC VERIFICATION]
-Citizen files compliment -> FSM moves Ticket #101 RESOLVED -> VERIFIED!");
-    }, 3400);
-
-    setTimeout(() => {
-      print("
-[STEP 8: WELFARE 0/1 KNAPSACK & FENWICK TREE]
-Disburses Rs.4,000 targeted stimulus in Ward-4; Fenwick Tree monitors 100,000 kg grain reserves.");
-    }, 3900);
-
-    setTimeout(() => {
-      print("
-[STEP 9: RED-BLACK TREE POLITICIAN AUDIT]
-Integrates 83.3% grievance resolution + 2.38% poverty reduction delta -> Final Rating: 70.92/100 [Grade B]!
-
-=================================================================\n   [✓] ALL DSA STRUCTURES SEAMLESSLY INTEGRATED ACROSS BOTH MODULES!
-=================================================================");
-    }, 4400);
-  }
-</script>
 
 </body>
 </html>

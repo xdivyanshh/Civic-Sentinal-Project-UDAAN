@@ -8,6 +8,11 @@
 build/
 bin/
 
+# Temporary and preview images
+*_preview_*.png
+preview_*.png
+temp_*.pdf
+
 # IDE and Editor files
 .vscode/
 .idea/
@@ -17,3 +22,6 @@ bin/
 # Operating System files
 .DS_Store
 Thumbs.db
+
+# Temporary report assets
+report_assets/
