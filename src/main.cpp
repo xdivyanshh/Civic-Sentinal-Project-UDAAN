@@ -2,6 +2,9 @@
 #include <string>
 #include <limits>
 #include <vector>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "UdaanUnifiedBridge.hpp"
 
 using namespace std;
@@ -39,7 +42,7 @@ void printMasterMenu() {
     cout << "     - Fenwick Tree (BIT) Ward Food Reserve Range Queries" << endl;
     cout << "     - Autonomous Macroeconomic Policy Triggers at Queue Roots" << endl;
     cout << "\n [4] UNIFIED INTER-PORTAL COMMUNICATION BRIDGE (LIVE DEMO)" << endl;
-    cout << "     • Field Portal Ingestion -> Core Max-Heap -> Skill Trie Labor" << endl;
+    cout << "     * Field Portal Ingestion -> Core Max-Heap -> Skill Trie Labor" << endl;
     cout << "       Absorption -> Food Grain Influx -> Delta BPL Politician Audit" << endl;
     cout << "\n [5] FULL END-TO-END AUTOMATED VIVA SIMULATION" << endl;
     cout << " [0] Exit System" << endl;
@@ -108,6 +111,10 @@ void runAutomatedDemo(CivicSentinelSystem& system) {
 }
 
 int main(int argc, char* argv[]) {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
     UdaanUnifiedBridge bridge;
 
     // Check CLI arguments

@@ -108,7 +108,7 @@ public:
         priorityScheduler.schedule(complaint);
         duplicateDetector.indexGrievance(id, wardId, title);
 
-        cout << " [✓] FIELD INTAKE SUCCESS: Ticket #" << id << " created and queued in Max-Heap." << endl;
+        cout << " [OK] FIELD INTAKE SUCCESS: Ticket #" << id << " created and queued in Max-Heap." << endl;
         return id;
     }
 
@@ -121,7 +121,7 @@ public:
         masterRecordRegistry[id] = suggestion;
         priorityScheduler.schedule(suggestion);
 
-        cout << " [✓] POLICY INTAKE SUCCESS: Civic Suggestion #" << id << " logged for administration." << endl;
+        cout << " [OK] POLICY INTAKE SUCCESS: Civic Suggestion #" << id << " logged for administration." << endl;
         return id;
     }
 
@@ -142,7 +142,7 @@ public:
             }
         }
 
-        cout << " [✓] COMMENDATION RECORDED: Compliment #" << id << " filed for Officer '" << officer << "'!" << endl;
+        cout << " [OK] COMMENDATION RECORDED: Compliment #" << id << " filed for Officer '" << officer << "'!" << endl;
         return id;
     }
 

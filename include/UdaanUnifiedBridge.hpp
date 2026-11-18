@@ -190,7 +190,7 @@ public:
         runPoliticianAudit("Hon. Rajeshwar Singh (MLA)", "Ward-12", "2026-07", "2026-10");
 
         cout << "\n=================================================================" << endl;
-        cout << "   [✓] ALL SUB-SYSTEMS SEAMLESSLY COMMUNICATING ACROSS BOTH PORTALS!" << endl;
+        cout << "   [OK] ALL SUB-SYSTEMS SEAMLESSLY COMMUNICATING ACROSS BOTH PORTALS!" << endl;
         cout << "=================================================================" << endl;
     }
 

@@ -231,7 +231,7 @@ public:
             total_jobs_placed_session++;
         }
 
-        std::cout << "  ✓ Total Qualified Workers Absorbed: " << hired << "/" << vacancies << "\n";
+        std::cout << "  [OK] Total Qualified Workers Absorbed: " << hired << "/" << vacancies << "\n";
         return hired;
     }
 
@@ -268,7 +268,7 @@ public:
         }
 
         total_stimulus_disbursed_session += result.total_disbursed;
-        std::cout << "  ✓ Knapsack Optimization Complete: Disbursed Rs." << result.total_disbursed 
+        std::cout << "  [OK] Knapsack Optimization Complete: Disbursed Rs." << result.total_disbursed 
                   << " | Social Welfare Utility Max: " << result.total_utility_gained << "\n";
     }
 
@@ -292,7 +292,7 @@ public:
                 // Fenwick tree point update: Add 15,000 kg buffer grain
                 pds_ration_stock.add_stock(top_pds.ward_id, 15000);
                 total_pds_distributed_session += 15000;
-                std::cout << "  ✓ Dispatched 15,000 kg buffer stock. Current Ward #" << top_pds.ward_id 
+                std::cout << "  [OK] Dispatched 15,000 kg buffer stock. Current Ward #" << top_pds.ward_id 
                           << " Reserve: " << pds_ration_stock.get_ward_stock(top_pds.ward_id) << " kg\n";
                 pds_food_heap.pop(); // Issue addressed
             }
