@@ -937,6 +937,7 @@
         <ul class="nav-list">
           <li><a href="#" class="nav-link active"><span class="nav-icon">📊</span> Dispatch Hub</a></li>
           <li><a href="tags_and_keywords.html" class="nav-link"><span class="nav-icon">📖</span> Master Dictionary</a></li>
+          <li><a href="dfa.html" class="nav-link"><span class="nav-icon">🔄</span> Lifecycle DFA (TOC)</a></li>
           <li><a href="../PROJECT_UDAAN_OFFICIAL_REPORT.html" class="nav-link"><span class="nav-icon">📑</span> Official Report</a></li>
           <li><a href="../docs/ARCHITECTURE.md" class="nav-link"><span class="nav-icon">📐</span> Architecture</a></li>
           <li><a href="../docs/DATA_STRUCTURES_COMPLEXITY.md" class="nav-link"><span class="nav-icon">⚡</span> DSA Complexity</a></li>
@@ -1152,6 +1153,41 @@
             </div>
             <div class="form-group" style="justify-content: flex-end;">
               <a href="#tab-dispatch" class="btn-primary">Audit Scorecard [O(log P)]</a>
+            </div>
+          </div>
+
+          <!-- DETERMINISTIC FINITE AUTOMATON (DFA) STATE MACHINE VISUALIZER -->
+          <div style="margin-top: 18px; padding: 18px; background: #F8F6F2; border: 1px solid var(--card-border); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-main);">
+                Automaton Lifecycle State Transition (DFA M = (Q, &Sigma;, &delta;, q₀, F))
+              </span>
+              <a href="dfa.html" style="font-size: 0.76rem; font-weight: 700; color: var(--terracotta-primary); text-decoration: none;">
+                Open Interactive TOC Simulator &rarr;
+              </a>
+            </div>
+
+            <!-- DFA State Flow Visualization -->
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+              <div style="background: #FFFFFF; border: 2px solid #3B82F6; padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #3B82F6;">q₀: OPEN</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted);">Start State</div>
+              </div>
+              <span style="color: var(--text-muted); font-weight: 700;">&rarr;</span>
+              <div style="background: #FFFFFF; border: 2px solid #F59E0B; padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #F59E0B;">q₁: ACTIVE</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted);">IN_PROGRESS</div>
+              </div>
+              <span style="color: var(--text-muted); font-weight: 700;">&rarr;</span>
+              <div style="background: #FFFFFF; border: 2px solid #8B5CF6; padding: 8px 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #8B5CF6;">q₂: RESOLVED</div>
+                <div style="font-size: 0.65rem; color: var(--text-muted);">Awaiting Audit</div>
+              </div>
+              <span style="color: var(--text-muted); font-weight: 700;">&rarr;</span>
+              <div style="background: #FFFFFF; border: 3px double #10B981; padding: 7px 11px; border-radius: 8px; text-align: center; flex: 1; min-width: 100px; box-shadow: 0 0 0 2px #10B981 inset;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #10B981;">q₃: VERIFIED</div>
+                <div style="font-size: 0.65rem; font-weight: 700; color: #10B981;">&lang;ACCEPT&rang;</div>
+              </div>
             </div>
           </div>
         </div>
