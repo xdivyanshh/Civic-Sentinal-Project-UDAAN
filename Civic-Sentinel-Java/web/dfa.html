@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifecycle DFA Specification — Project Udaan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0F1115;
+      --card-bg: #161920;
+      --card-border: #262B36;
+      --text-main: #FFFFFF;
+      --text-muted: #8E95A5;
+      --terracotta: #E05344;
+      --terracotta-glow: rgba(224, 83, 68, 0.25);
+      --green: #2ED573;
+      --green-glow: rgba(46, 213, 115, 0.25);
+      --blue: #1E90FF;
+      --amber: #FFA502;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* TOP HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(224, 83, 68, 0.15);
+      border: 1px solid rgba(224, 83, 68, 0.35);
+      color: var(--terracotta);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .btn-nav {
+      background: var(--card-bg);
+      color: #FFFFFF;
+      border: 1px solid var(--card-border);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover {
+      border-color: var(--terracotta);
+      background: rgba(224, 83, 68, 0.1);
+    }
+
+    /* CARD STYLING */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* INTERACTIVE SVG DFA VISUALIZER */
+    .dfa-svg-wrapper {
+      width: 100%;
+      background: #0B0D11;
+      border-radius: 14px;
+      border: 1px solid #1C212B;
+      padding: 24px 12px;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    svg {
+      max-width: 100%;
+      height: auto;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* CONTROLS BAR */
+    .simulator-controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .sim-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      background: #1C212B;
+      color: #FFFFFF;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .sim-btn:hover {
+      background: #272D3A;
+      border-color: var(--blue);
+    }
+
+    .sim-btn.primary {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+    }
+
+    .sim-btn.primary:hover {
+      background: #C74032;
+    }
+
+    .sim-btn.danger {
+      background: rgba(235, 47, 47, 0.15);
+      border-color: rgba(235, 47, 47, 0.4);
+      color: #FF6B6B;
+    }
+
+    .sim-btn.danger:hover {
+      background: rgba(235, 47, 47, 0.25);
+    }
+
+    .sim-btn.reset {
+      margin-left: auto;
+      background: transparent;
+      border-color: #383F4D;
+      color: var(--text-muted);
+    }
+
+    .sim-btn.reset:hover {
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+    }
+
+    /* LIVE SIMULATOR CONSOLE */
+    .sim-console {
+      background: #08090C;
+      border: 1px solid #1C2028;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #34D399;
+      margin-top: 16px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* TOC 5-TUPLE FORMAL DEFINITION */
+    .tuple-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .tuple-box {
+      background: #11141B;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .tuple-symbol {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--terracotta);
+      margin-bottom: 4px;
+    }
+
+    .tuple-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .tuple-val {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #E2E8F0;
+    }
+
+    /* TRANSITION TABLE */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      background: #11141A;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    td {
+      color: #E0E4EC;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .state-badge {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      display: inline-block;
+    }
+
+    .state-badge.open { background: rgba(30, 144, 255, 0.15); color: #60A5FA; border: 1px solid rgba(30, 144, 255, 0.3); }
+    .state-badge.progress { background: rgba(255, 165, 2, 0.15); color: #FBBF24; border: 1px solid rgba(255, 165, 2, 0.3); }
+    .state-badge.resolved { background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .state-badge.verified { background: rgba(46, 213, 115, 0.15); color: #34D399; border: 1px solid rgba(46, 213, 115, 0.3); }
+    .state-badge.trap { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .code-span {
+      font-family: var(--font-mono);
+      background: #1C212C;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: #FFB3AA;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- TOP HEADER -->
+    <header class="header">
+      <div>
+        <div class="badge-pill">Theory of Computation (TOC) &bull; 15B17CI371</div>
+        <h1>Lifecycle FSM: Deterministic Finite Automaton (DFA)</h1>
+        <p>Mathematical State Transition Model for Municipal Grievance Accountability</p>
+      </div>
+      <div>
+        <a href="index.html" class="btn-nav">&larr; Back to Dispatch Hub</a>
+      </div>
+    </header>
+
+    <!-- SECTION 1: INTERACTIVE SVG DFA VISUALIZER -->
+    <section class="card">
+      <div class="card-title">
+        <span>🔄</span>
+        <span>Automaton State Diagram</span>
+      </div>
+      <div class="card-subtitle">
+        Visual graph representation of states \(Q\), alphabet transitions \(\Sigma\), and the double-bordered Accept State \(F\).
+      </div>
+
+      <div class="dfa-svg-wrapper">
+        <svg width="860" height="300" viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#8E95A5" />
+            </marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#2ED573" />
+            </marker>
+            <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#E05344" />
+            </marker>
+          </defs>
+
+          <!-- START ARROW -->
+          <line x1="20" y1="120" x2="68" y2="120" stroke="#8E95A5" stroke-width="2.5" marker-end="url(#arrow)" />
+          <text x="35" y="110" fill="#8E95A5" font-size="12" font-weight="700">START</text>
+
+          <!-- STATE q0: OPEN -->
+          <g id="svg-q0">
+            <circle id="circle-q0" cx="120" cy="120" r="46" fill="#151A24" stroke="#1E90FF" stroke-width="3.5" />
+            <text x="120" y="115" fill="#FFFFFF" font-size="14" font-weight="800" text-anchor="middle">q₀: OPEN</text>
+            <text x="120" y="133" fill="#8E95A5" font-size="10" text-anchor="middle">LODGED</text>
+          </g>
+
+          <!-- TRANSITION: q0 -> q1 (claimIssue) -->
+          <line x1="166" y1="120" x2="284" y2="120" stroke="#8E95A5" stroke-width="2.5" marker-end="url(#arrow)" />
+          <text x="225" y="105" fill="#60A5FA" font-size="11" font-weight="700" text-anchor="middle">claimIssue()</text>
+          <text x="225" y="138" fill="#8E95A5" font-size="9" text-anchor="middle">[budget &gt; $0]</text>
+
+          <!-- STATE q1: IN_PROGRESS -->
+          <g id="svg-q1">
+            <circle id="circle-q1" cx="330" cy="120" r="46" fill="#151A24" stroke="#FFA502" stroke-width="2.5" />
+            <text x="330" y="112" fill="#FFFFFF" font-size="12" font-weight="800" text-anchor="middle">q₁: ACTIVE</text>
+            <text x="330" y="128" fill="#8E95A5" font-size="10" text-anchor="middle">IN_PROGRESS</text>
+          </g>
+
+          <!-- TRANSITION: q1 -> q2 (resolveIssue) -->
+          <line x1="376" y1="120" x2="494" y2="120" stroke="#8E95A5" stroke-width="2.5" marker-end="url(#arrow)" />
+          <text x="435" y="105" fill="#FBBF24" font-size="11" font-weight="700" text-anchor="middle">resolveIssue()</text>
+          <text x="435" y="138" fill="#8E95A5" font-size="9" text-anchor="middle">[proofNotes &ne; &empty;]</text>
+
+          <!-- STATE q2: RESOLVED -->
+          <g id="svg-q2">
+            <circle id="circle-q2" cx="540" cy="120" r="46" fill="#151A24" stroke="#A855F7" stroke-width="2.5" />
+            <text x="540" y="115" fill="#FFFFFF" font-size="13" font-weight="800" text-anchor="middle">q₂: RESOLVED</text>
+            <text x="540" y="133" fill="#8E95A5" font-size="10" text-anchor="middle">AWAITING VOTE</text>
+          </g>
+
+          <!-- TRANSITION: q2 -> q3 (verifyIssue) -->
+          <line x1="586" y1="120" x2="704" y2="120" stroke="#8E95A5" stroke-width="2.5" marker-end="url(#arrow)" />
+          <text x="645" y="105" fill="#34D399" font-size="11" font-weight="700" text-anchor="middle">verifyIssue()</text>
+          <text x="645" y="138" fill="#8E95A5" font-size="9" text-anchor="middle">[citizen vote]</text>
+
+          <!-- STATE q3: VERIFIED (FINAL / ACCEPT STATE - CONCENTRIC DOUBLE CIRCLE) -->
+          <g id="svg-q3">
+            <circle id="circle-q3-outer" cx="750" cy="120" r="46" fill="#151A24" stroke="#2ED573" stroke-width="2.5" />
+            <circle id="circle-q3-inner" cx="750" cy="120" r="39" fill="transparent" stroke="#2ED573" stroke-width="2" />
+            <text x="750" y="115" fill="#FFFFFF" font-size="12" font-weight="800" text-anchor="middle">q₃: VERIFIED</text>
+            <text x="750" y="131" fill="#34D399" font-size="9" font-weight="700" text-anchor="middle">&lang;ACCEPT&rang;</text>
+          </g>
+
+          <!-- TRAP / REJECT STATE -->
+          <g id="svg-qtrap">
+            <rect id="rect-qtrap" x="380" y="225" width="130" height="42" rx="8" fill="#181316" stroke="#E05344" stroke-width="1.8" stroke-dasharray="4,3" />
+            <text x="445" y="244" fill="#FF7675" font-size="11" font-weight="800" text-anchor="middle">q_trap: REJECT</text>
+            <text x="445" y="258" fill="#8E95A5" font-size="9" text-anchor="middle">Illegal Stage Skipping</text>
+          </g>
+
+          <!-- ILLEGAL TRANSITION CURVED ARROWS -->
+          <path d="M 120 166 Q 160 245 375 245" fill="transparent" stroke="#E05344" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-red)" />
+          <text x="210" y="220" fill="#E05344" font-size="9" font-weight="600">resolve() before claim</text>
+
+          <path d="M 330 166 Q 350 235 375 240" fill="transparent" stroke="#E05344" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-red)" />
+        </svg>
+      </div>
+
+      <!-- SIMULATOR CONTROLS -->
+      <div class="simulator-controls">
+        <button class="sim-btn primary" onclick="simTransition('claim')">1. Exec: claimIssue($5,000)</button>
+        <button class="sim-btn" onclick="simTransition('resolve')">2. Exec: resolveIssue("Fixed")</button>
+        <button class="sim-btn" onclick="simTransition('verify')">3. Exec: verifyIssue()</button>
+        <button class="sim-btn danger" onclick="simTransition('illegal_jump')">&times; Attempt Illegal Skip (OPEN &rarr; RESOLVED)</button>
+        <button class="sim-btn reset" onclick="simReset()">Reset to q₀</button>
+      </div>
+
+      <!-- SIMULATOR CONSOLE LOG -->
+      <div class="sim-console" id="sim-log">
+        Automaton Initialized. Current State: q₀ (OPEN). Awaiting input symbol &sigma; &isin; &Sigma;.
+      </div>
+    </section>
+
+    <!-- SECTION 2: FORMAL TOC 5-TUPLE DEFINITION -->
+    <section class="card">
+      <div class="card-title">
+        <span>📐</span>
+        <span>Formal Theory of Computation (TOC) 5-Tuple</span>
+      </div>
+      <div class="card-subtitle">
+        Mathematical definition of the Deterministic Finite Automaton \(M = (Q, \Sigma, \delta, q_0, F)\)
+      </div>
+
+      <div class="tuple-grid">
+        <div class="tuple-box">
+          <div class="tuple-symbol">Q</div>
+          <div class="tuple-name">Finite State Set</div>
+          <div class="tuple-val">{ q₀: OPEN, q₁: IN_PROGRESS, q₂: RESOLVED, q₃: VERIFIED, q_trap }</div>
+        </div>
+        <div class="tuple-box">
+          <div class="tuple-symbol">&Sigma;</div>
+          <div class="tuple-name">Input Alphabet</div>
+          <div class="tuple-val">{ claimIssue, resolveIssue, verifyIssue }</div>
+        </div>
+        <div class="tuple-box">
+          <div class="tuple-symbol">q₀</div>
+          <div class="tuple-name">Initial Start State</div>
+          <div class="tuple-val">q₀ = LifecycleState::OPEN</div>
+        </div>
+        <div class="tuple-box">
+          <div class="tuple-symbol">F</div>
+          <div class="tuple-name">Accept / Final State</div>
+          <div class="tuple-val">F = { q₃: LifecycleState::VERIFIED }</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: FORMAL TRANSITION FUNCTION DELTA TABLE -->
+    <section class="card">
+      <div class="card-title">
+        <span>📋</span>
+        <span>State Transition Function Table (\(\delta : Q \times \Sigma \to Q\))</span>
+      </div>
+      <div class="card-subtitle">
+        Exact deterministic mapping enforced by <code>include/LifecycleFSM.hpp</code>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Current State (\(q \in Q\))</th>
+              <th>Input Symbol (\(\sigma \in \Sigma\))</th>
+              <th>Next State (\(\delta(q, \sigma)\))</th>
+              <th>Invariant Validation Guard</th>
+              <th>C++ Enforcement Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="state-badge open">q₀: OPEN</span></td>
+              <td><span class="code-span">claimIssue(officer, budget)</span></td>
+              <td><span class="state-badge progress">q₁: IN_PROGRESS</span></td>
+              <td><code>budget &gt; 0.0</code></td>
+              <td><code>LifecycleFSM::claimIssue()</code></td>
+            </tr>
+            <tr>
+              <td><span class="state-badge open">q₀: OPEN</span></td>
+              <td><span class="code-span">resolveIssue(proof)</span></td>
+              <td><span class="state-badge trap">q_trap: REJECT</span></td>
+              <td>Illegal skip; no assigned officer</td>
+              <td>Throws assertion / Returns <code>false</code></td>
+            </tr>
+            <tr>
+              <td><span class="state-badge progress">q₁: IN_PROGRESS</span></td>
+              <td><span class="code-span">resolveIssue(proof)</span></td>
+              <td><span class="state-badge resolved">q₂: RESOLVED</span></td>
+              <td><code>proofNotes != ""</code></td>
+              <td><code>LifecycleFSM::resolveIssue()</code></td>
+            </tr>
+            <tr>
+              <td><span class="state-badge progress">q₁: IN_PROGRESS</span></td>
+              <td><span class="code-span">verifyIssue()</span></td>
+              <td><span class="state-badge trap">q_trap: REJECT</span></td>
+              <td>Cannot verify before resolution</td>
+              <td>Returns <code>false</code></td>
+            </tr>
+            <tr>
+              <td><span class="state-badge resolved">q₂: RESOLVED</span></td>
+              <td><span class="code-span">verifyIssue()</span></td>
+              <td><span class="state-badge verified">q₃: VERIFIED (Accept)</span></td>
+              <td>Citizen democratic confirmation</td>
+              <td><code>LifecycleFSM::verifyIssue()</code></td>
+            </tr>
+            <tr>
+              <td><span class="state-badge verified">q₃: VERIFIED</span></td>
+              <td>Any input</td>
+              <td><span class="state-badge verified">q₃: VERIFIED</span></td>
+              <td>Closed-loop terminal state (Immutable)</td>
+              <td>State locked</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- SCRIPT FOR INTERACTIVE VISUALIZER -->
+  <script>
+    let currentState = 'q0';
+
+    function updateVisuals() {
+      // Reset all highlights
+      document.getElementById('circle-q0').setAttribute('stroke', '#1E90FF');
+      document.getElementById('circle-q0').setAttribute('stroke-width', '2.5');
+      document.getElementById('circle-q1').setAttribute('stroke', '#FFA502');
+      document.getElementById('circle-q1').setAttribute('stroke-width', '2.5');
+      document.getElementById('circle-q2').setAttribute('stroke', '#A855F7');
+      document.getElementById('circle-q2').setAttribute('stroke-width', '2.5');
+      document.getElementById('circle-q3-outer').setAttribute('stroke', '#2ED573');
+      document.getElementById('circle-q3-outer').setAttribute('stroke-width', '2.5');
+      document.getElementById('rect-qtrap').setAttribute('stroke', '#E05344');
+      document.getElementById('rect-qtrap').setAttribute('stroke-width', '1.8');
+
+      // Highlight active
+      if (currentState === 'q0') {
+        document.getElementById('circle-q0').setAttribute('stroke', '#60A5FA');
+        document.getElementById('circle-q0').setAttribute('stroke-width', '5');
+      } else if (currentState === 'q1') {
+        document.getElementById('circle-q1').setAttribute('stroke', '#FDE047');
+        document.getElementById('circle-q1').setAttribute('stroke-width', '5');
+      } else if (currentState === 'q2') {
+        document.getElementById('circle-q2').setAttribute('stroke', '#D8B4FE');
+        document.getElementById('circle-q2').setAttribute('stroke-width', '5');
+      } else if (currentState === 'q3') {
+        document.getElementById('circle-q3-outer').setAttribute('stroke', '#4ADE80');
+        document.getElementById('circle-q3-outer').setAttribute('stroke-width', '6');
+      } else if (currentState === 'qtrap') {
+        document.getElementById('rect-qtrap').setAttribute('stroke', '#FF4D4D');
+        document.getElementById('rect-qtrap').setAttribute('stroke-width', '4');
+      }
+    }
+
+    function simTransition(action) {
+      const log = document.getElementById('sim-log');
+
+      if (action === 'illegal_jump') {
+        if (currentState === 'q0') {
+          currentState = 'qtrap';
+          updateVisuals();
+          log.innerHTML = `<span style="color:#FF6B6B;">[!] ILLEGAL TRANSITION: &delta;(q₀, resolve) &rarr; q_trap! Cannot mark RESOLVED before CLAIMED with budget.</span>`;
+        } else {
+          log.innerHTML = `<span style="color:#FFA502;">[!] Action invalid from current state ${currentState}.</span>`;
+        }
+        return;
+      }
+
+      if (currentState === 'q0' && action === 'claim') {
+        currentState = 'q1';
+        updateVisuals();
+        log.innerHTML = `<span style="color:#FBBF24;">[&delta;(q₀, claim) &rarr; q₁] Ticket Claimed by Officer 'Rajesh'. State: IN_PROGRESS (Budget: $5,000 allocated).</span>`;
+      } else if (currentState === 'q1' && action === 'resolve') {
+        currentState = 'q2';
+        updateVisuals();
+        log.innerHTML = `<span style="color:#C084FC;">[&delta;(q₁, resolve) &rarr; q₂] Work Completed. Proof: 'Bitumen compacted'. State: RESOLVED (Awaiting citizen audit).</span>`;
+      } else if (currentState === 'q2' && action === 'verify') {
+        currentState = 'q3';
+        updateVisuals();
+        log.innerHTML = `<span style="color:#34D399;">[&delta;(q₂, verify) &rarr; q₃ &lang;ACCEPT&rang;] Citizen verified work! Reached Final State q₃: VERIFIED.</span>`;
+      } else if (currentState === 'q3') {
+        log.innerHTML = `<span style="color:#34D399;">Ticket is already in Final Accept State q₃ (VERIFIED). Closed-loop complete!</span>`;
+      } else {
+        currentState = 'qtrap';
+        updateVisuals();
+        log.innerHTML = `<span style="color:#FF6B6B;">[X] REJECT STATE: Transition &delta;(${currentState}, ${action}) is UNDEFINED. Operation blocked!</span>`;
+      }
+    }
+
+    function simReset() {
+      currentState = 'q0';
+      updateVisuals();
+      document.getElementById('sim-log').innerHTML = `Automaton Reset to Initial State q₀ (OPEN). Ready.`;
+    }
+
+    // Initialize visual highlight
+    updateVisuals();
+  </script>
+
+</body>
+</html>

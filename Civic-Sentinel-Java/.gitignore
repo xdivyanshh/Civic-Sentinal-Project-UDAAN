@@ -1,0 +1,22 @@
+# Java compiled bytecode
+*.class
+bin/
+out/
+target/
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# Operating System files
+.DS_Store
+Thumbs.db
