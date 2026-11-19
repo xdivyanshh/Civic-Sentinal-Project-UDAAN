@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@page { size: A4; margin: 0; }
+body { margin: 0; padding: 0; }
+.page {
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  padding: 15mm;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  page-break-after: always;
+  background: #fbf9f5;
+}
+.header { height: 20px; background: #0f3a2e; color: white; }
+.content { flex: 1; background: #e5f4f0; }
+.footer { height: 20px; background: #4e3629; color: white; }
+</style>
+</head>
+<body>
+<div class='page'>
+  <div class='header'>Header 1</div>
+  <div class='content'>Content 1</div>
+  <div class='footer'>Footer 1</div>
+</div>
+<div class='page'>
+  <div class='header'>Header 2</div>
+  <div class='content'>Content 2</div>
+  <div class='footer'>Footer 2</div>
+</div>
+</body>
+</html>
